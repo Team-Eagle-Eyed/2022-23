@@ -1,5 +1,5 @@
 ## Team 3512's swerve drive code for the 2022 offseason
-### Modified from Team 3512's [modified version](https://github.com/frc3512/swervebot-2022) of team 364's [BaseFalconSwerve](https://github.com/Team364/BaseFalconSwerve) project to utilize __NEO motors__
+### Modified from team 3512's [modified version](https://github.com/frc3512/swervebot-2022) of team 364's [BaseFalconSwerve](https://github.com/Team364/BaseFalconSwerve) project to utilize __NEO motors__
 
 Therefore, their [instructions](https://github.com/Team364/BaseFalconSwerve#setting-constants) on modifiying the constants to fit your robot will also work on this repo as well.
 
