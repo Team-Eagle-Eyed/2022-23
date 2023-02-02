@@ -8,6 +8,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TeleopSwerve extends CommandBase {
   private Swerve s_Swerve;
@@ -50,8 +51,8 @@ public class TeleopSwerve extends CommandBase {
 
     /* Drive */
     s_Swerve.drive(
-        new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
-        rotationVal * Constants.Swerve.maxAngularVelocity,
+        new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed).times(SmartDashboard.getNumber("SpeedLimit", 1)),
+        rotationVal * Constants.Swerve.maxAngularVelocity * SmartDashboard.getNumber("SpeedLimit", 1),
         !robotCentricSup.getAsBoolean(),
         true);
   }
