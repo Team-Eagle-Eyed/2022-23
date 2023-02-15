@@ -31,8 +31,7 @@ public class exampleAuto extends SequentialCommandGroup {
     
     addCommands(
         new RepeatCommand(new InstantCommand(() -> 
-            s_Swerve.drive(new Translation2d(forwardAmount, 0).times(Constants.Swerve.maxSpeed), 0, true, true)
-            ))
+            s_Swerve.drive(new Translation2d(forwardAmount, 0).times(Constants.Swerve.maxSpeed), 0, true, true), s_Swerve))
         );
   }
 }
