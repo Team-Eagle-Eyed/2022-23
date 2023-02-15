@@ -20,18 +20,18 @@ public class exampleAuto extends SequentialCommandGroup {
     areasSub = table.getDoubleTopic("targetArea").subscribe(10);
 
     double area = areasSub.get();
-/*     if(area <= 0) {
+    if(area <= 0) {
         forwardAmount = 0;
     } else if(area <= 9.5) {
         forwardAmount = 0.5;
     } else if (area >= 10.5) {
         forwardAmount = -0.5;
-    } */
+    }
     System.out.println(area);
     
     addCommands(
         new RepeatCommand(new InstantCommand(() -> 
-            s_Swerve.drive(new Translation2d(table.getDoubleTopic("targetArea").subscribe(10).get(), 0).times(Constants.Swerve.maxSpeed), 0, true, true)
+            s_Swerve.drive(new Translation2d(forwardAmount, 0).times(Constants.Swerve.maxSpeed), 0, true, true)
             ))
         );
   }
