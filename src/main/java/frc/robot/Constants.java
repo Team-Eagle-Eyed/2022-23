@@ -137,4 +137,15 @@ public final class Constants {
         new TrapezoidProfile.Constraints(
             kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
+
+  public static final class Arm {
+    public static final int armShoulderID = 23;
+    public static final int armTelescopeID = 24;
+    public static final int armRotateID = 25;
+  }
+
+  public static final class Manipulator {
+    public static final int manipulatorLeftID = 21; //or 22
+    public static final int manupulatorRightID = 22; //or 21
+  }
 }

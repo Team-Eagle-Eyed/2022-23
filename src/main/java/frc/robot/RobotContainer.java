@@ -12,7 +12,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.exampleAuto;
+import frc.robot.commands.TeleopArm;
+import frc.robot.commands.TeleopManipulator;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Swerve;
 
 /**
@@ -24,12 +28,16 @@ import frc.robot.subsystems.Swerve;
 public class RobotContainer {
   /* Controllers */
   private final Joystick driver = new Joystick(0);
+  private final Joystick operator = new Joystick(1);
 
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
   private final int speedAxis = XboxController.Axis.kRightTrigger.value;
+
+  private final int telescopeAxis = XboxController.Axis.kLeftY.value;
+  private final int shoulderAxis = XboxController.Axis.kRightY.value;
 
   /* Driver Buttons */
 /*   private final JoystickButton zeroGyro =
@@ -44,9 +52,16 @@ public class RobotContainer {
       new JoystickButton(driver, XboxController.Button.kA.value);
   private final JoystickButton zeroGyro4 = 
       new JoystickButton(driver, XboxController.Button.kB.value);
+  
+  private final JoystickButton manipulatorForward = 
+      new JoystickButton(operator, XboxController.Button.kX.value);
+  private final JoystickButton manipulatorReverse = 
+      new JoystickButton(operator, XboxController.Button.kB.value);
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
+  private final Arm s_Arm = new Arm();
+  private final Manipulator s_Manipulator = new Manipulator();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -57,7 +72,14 @@ public class RobotContainer {
             () -> -driver.getRawAxis(strafeAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
             () -> -driver.getRawAxis(rotationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
             () -> robotCentric.getAsBoolean()));
+    
+    s_Arm.setDefaultCommand(
+        new TeleopArm(s_Arm, operator.getRawAxis(telescopeAxis), operator.getRawAxis(shoulderAxis))
+    );
 
+    s_Manipulator.setDefaultCommand(
+        new TeleopManipulator(s_Manipulator, manipulatorForward.getAsBoolean(), manipulatorReverse.getAsBoolean())
+    );
     // Configure the button bindings
     configureButtonBindings();
   }
