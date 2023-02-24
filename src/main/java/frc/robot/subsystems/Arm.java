@@ -5,7 +5,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -17,24 +16,19 @@ public class Arm extends SubsystemBase {
     
     public Arm() {}
 
-    public CommandBase rotateArm(double speed) {
-        return runOnce(
-            () -> {
-                m_armRotate.set(speed);
-            });
+    public void rotateArm(double speed) {
+        System.out.println("Setting rotate speed");
+        m_armRotate.set(speed);
     }
 
-    public CommandBase telescopeArm(double speed) {
-        return runOnce(
-            () -> {
-                m_armTelescope.set(speed);
-            });
+    public void telescopeArm(double speed) {
+        System.out.println("Setting telescope speed to " + speed);
+        m_armTelescope.set(speed);
+        System.out.println(m_armTelescope.get());
+
     }
 
-    public CommandBase runShoulder(double speed) {
-        return runOnce(
-            () -> {
-                m_armShoulder.set(speed);
-            });
+    public void runShoulder(double speed) {
+        m_armShoulder.set(speed);
     }
 }

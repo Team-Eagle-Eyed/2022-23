@@ -39,6 +39,9 @@ public class RobotContainer {
   private final int telescopeAxis = XboxController.Axis.kLeftY.value;
   private final int shoulderAxis = XboxController.Axis.kRightY.value;
 
+  private final int manipulatorForward = XboxController.Button.kX.value;
+  private final int manipulatorReverse = XboxController.Button.kB.value;
+
   /* Driver Buttons */
 /*   private final JoystickButton zeroGyro =
       new JoystickButton(driver, XboxController.Button.kY.value); */ //uncomment to use the single button zero gyro
@@ -53,10 +56,6 @@ public class RobotContainer {
   private final JoystickButton zeroGyro4 = 
       new JoystickButton(driver, XboxController.Button.kB.value);
   
-  private final JoystickButton manipulatorForward = 
-      new JoystickButton(operator, XboxController.Button.kX.value);
-  private final JoystickButton manipulatorReverse = 
-      new JoystickButton(operator, XboxController.Button.kB.value);
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
@@ -73,12 +72,17 @@ public class RobotContainer {
             () -> -driver.getRawAxis(rotationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
             () -> robotCentric.getAsBoolean()));
     
+    System.out.println(operator.getRawAxis(telescopeAxis) + "Telescope");
     s_Arm.setDefaultCommand(
-        new TeleopArm(s_Arm, operator.getRawAxis(telescopeAxis), operator.getRawAxis(shoulderAxis))
+        new TeleopArm(s_Arm,
+        () -> operator.getRawAxis(telescopeAxis),
+        () -> operator.getRawAxis(shoulderAxis))
     );
 
     s_Manipulator.setDefaultCommand(
-        new TeleopManipulator(s_Manipulator, manipulatorForward.getAsBoolean(), manipulatorReverse.getAsBoolean())
+        new TeleopManipulator(s_Manipulator,
+        () -> operator.getRawButton(manipulatorForward),
+        () -> operator.getRawButton(manipulatorReverse))
     );
     // Configure the button bindings
     configureButtonBindings();

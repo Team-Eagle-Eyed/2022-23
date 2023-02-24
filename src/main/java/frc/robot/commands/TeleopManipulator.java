@@ -1,16 +1,18 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Manipulator;
 
 public class TeleopManipulator extends CommandBase {
 
     private final Manipulator s_Manipulator;
-    private final boolean manipulatorForward;
-    private final boolean manipulatorReverse;
+    private final BooleanSupplier manipulatorForward;
+    private final BooleanSupplier manipulatorReverse;
     private double manipulatorSpeed = 0;
 
-    public TeleopManipulator(Manipulator subsystem, boolean forward, boolean reverse) {
+    public TeleopManipulator(Manipulator subsystem, BooleanSupplier forward, BooleanSupplier reverse) {
         s_Manipulator = subsystem;
         manipulatorForward = forward;
         manipulatorReverse = reverse;
@@ -26,9 +28,9 @@ public class TeleopManipulator extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (manipulatorForward) {
+        if (manipulatorForward.getAsBoolean()) {
           manipulatorSpeed = 1;
-        } else if (manipulatorReverse) {
+        } else if (manipulatorReverse.getAsBoolean()) {
           manipulatorSpeed = -1;
         } else {
           manipulatorSpeed = 0;

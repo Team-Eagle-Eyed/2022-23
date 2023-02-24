@@ -5,7 +5,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,11 +15,8 @@ public class Manipulator extends SubsystemBase {
     
     public Manipulator() {}
 
-    public CommandBase run(double speed) {
-        return runOnce(
-            () -> {
-                m_leftManipulatorWheel.set(speed);
-                m_rightManipulatorWheel.set(-speed);
-            });
+    public void run(double speed) {
+        m_leftManipulatorWheel.set(speed);
+        m_rightManipulatorWheel.set(-speed);
     }
 }
