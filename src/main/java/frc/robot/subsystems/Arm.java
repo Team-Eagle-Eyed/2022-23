@@ -17,14 +17,11 @@ public class Arm extends SubsystemBase {
     public Arm() {}
 
     public void rotateArm(double speed) {
-        System.out.println("Setting rotate speed");
         m_armRotate.set(speed);
     }
 
     public void telescopeArm(double speed) {
-        System.out.println("Setting telescope speed to " + speed);
         m_armTelescope.set(speed);
-        System.out.println(m_armTelescope.get());
 
     }
 

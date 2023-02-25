@@ -38,6 +38,8 @@ public class RobotContainer {
 
   private final int telescopeAxis = XboxController.Axis.kLeftY.value;
   private final int shoulderAxis = XboxController.Axis.kRightY.value;
+  private final int pivotRightAxis = XboxController.Axis.kRightTrigger.value;
+  private final int pivotLeftAxis = XboxController.Axis.kLeftTrigger.value;
 
   private final int manipulatorForward = XboxController.Button.kX.value;
   private final int manipulatorReverse = XboxController.Button.kB.value;
@@ -72,11 +74,12 @@ public class RobotContainer {
             () -> -driver.getRawAxis(rotationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
             () -> robotCentric.getAsBoolean()));
     
-    System.out.println(operator.getRawAxis(telescopeAxis) + "Telescope");
     s_Arm.setDefaultCommand(
         new TeleopArm(s_Arm,
         () -> operator.getRawAxis(telescopeAxis),
-        () -> operator.getRawAxis(shoulderAxis))
+        () -> operator.getRawAxis(shoulderAxis),
+        () -> operator.getRawAxis(pivotRightAxis),
+        () -> operator.getRawAxis(pivotLeftAxis))
     );
 
     s_Manipulator.setDefaultCommand(

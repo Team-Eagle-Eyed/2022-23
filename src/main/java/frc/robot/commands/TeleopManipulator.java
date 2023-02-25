@@ -12,10 +12,10 @@ public class TeleopManipulator extends CommandBase {
     private final BooleanSupplier manipulatorReverse;
     private double manipulatorSpeed = 0;
 
-    public TeleopManipulator(Manipulator subsystem, BooleanSupplier forward, BooleanSupplier reverse) {
+    public TeleopManipulator(Manipulator subsystem, BooleanSupplier manipulatorForward, BooleanSupplier manipulatorReverse) {
         s_Manipulator = subsystem;
-        manipulatorForward = forward;
-        manipulatorReverse = reverse;
+        this.manipulatorForward = manipulatorForward;
+        this.manipulatorReverse = manipulatorReverse;
 
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(s_Manipulator);
@@ -31,7 +31,7 @@ public class TeleopManipulator extends CommandBase {
         if (manipulatorForward.getAsBoolean()) {
           manipulatorSpeed = 1;
         } else if (manipulatorReverse.getAsBoolean()) {
-          manipulatorSpeed = -1;
+          manipulatorSpeed = -.15;
         } else {
           manipulatorSpeed = 0;
         }
