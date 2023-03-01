@@ -16,7 +16,7 @@ public class Manipulator extends SubsystemBase {
     public Manipulator() {}
 
     public void run(double speed) {
-        m_leftManipulatorWheel.set(speed);
+        m_leftManipulatorWheel.set(-speed);
         m_rightManipulatorWheel.set(-speed);
     }
 }
