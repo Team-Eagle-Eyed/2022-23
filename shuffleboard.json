@@ -212,32 +212,6 @@
               "Slider Settings/Block increment": 0.0625,
               "Visuals/Display value": true
             }
-          },
-          "4,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/telspd",
-              "_title": "telspd",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/shldspd",
-              "_title": "shldspd",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
           }
         }
       }
