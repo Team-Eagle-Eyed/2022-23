@@ -26,8 +26,12 @@ public class TeleopIntake extends CommandBase {
     @Override
     public void execute() {
         double intakeVal =
-            MathUtil.applyDeadband(intakeSup.getAsDouble(), frc.robot.Constants.Intake.stickDeadband) * frc.robot.Constants.Intake.maxIntakeSpeed;
-
-        s_Intake.run(intakeVal);
+            MathUtil.applyDeadband(intakeSup.getAsDouble(), frc.robot.Constants.Intake.stickDeadband);
+        if(intakeVal < 0) {
+            s_Intake.run(intakeVal); //out at full speed
+        } else {
+            s_Intake.run(intakeVal * frc.robot.Constants.Intake.maxIntakeSpeed); //in at limited speed
+        }
+        
     }
 }

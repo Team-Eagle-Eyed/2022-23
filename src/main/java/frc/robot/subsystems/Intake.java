@@ -15,11 +15,14 @@ public class Intake extends SubsystemBase {
     public Intake() {}
 
     public void run(double speed) {
-        m_leftIntakeSpinner.set(-speed);
-        m_rightIntakeSpinner.set(speed);
+        m_leftIntakeSpinner.set(speed);
+        m_rightIntakeSpinner.set(-speed);
     }
 
     public void configureMotors() {
-        // nothing rn
+        m_leftIntakeSpinner.setSmartCurrentLimit(80);
+        m_rightIntakeSpinner.setSmartCurrentLimit(80);
+        m_leftIntakeSpinner.burnFlash();
+        m_rightIntakeSpinner.burnFlash();
     }
 }

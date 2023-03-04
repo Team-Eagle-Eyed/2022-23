@@ -98,7 +98,7 @@ public class RobotContainer {
 
     s_Intake.setDefaultCommand(
         new TeleopIntake(s_Intake,
-        () -> operator.getRawAxis(intakeAxis))
+        () -> driver.getRawAxis(intakeAxis))
     );
 
     // Configure the button bindings
