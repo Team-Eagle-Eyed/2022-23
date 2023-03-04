@@ -14,11 +14,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // import frc.robot.autos.exampleAuto;
 import frc.robot.autos.visionAuto;
 import frc.robot.commands.TeleopArm;
+import frc.robot.commands.TeleopIntake;
 import frc.robot.commands.TeleopManipulator;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,17 +39,21 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kRightX.value;
   private final int speedAxis = XboxController.Axis.kRightTrigger.value;
 
+  /* Arm Controls */
   private final int telescopeAxis = XboxController.Axis.kLeftY.value;
   private final int shoulderAxis = XboxController.Axis.kRightY.value;
   private final int pivotRightAxis = XboxController.Axis.kRightTrigger.value;
   private final int pivotLeftAxis = XboxController.Axis.kLeftTrigger.value;
 
+  /* Manipulator Controls */
   private final int manipulatorForward = XboxController.Button.kX.value;
   private final int manipulatorReverse = XboxController.Button.kB.value;
 
+  /* Intake Controls */
+  private final int intakeAxis = XboxController.Axis.kRightY.value;
+
+
   /* Driver Buttons */
-/*   private final JoystickButton zeroGyro =
-      new JoystickButton(driver, XboxController.Button.kY.value); */ //uncomment to use the single button zero gyro
   private final JoystickButton robotCentric =
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private final JoystickButton zeroGyro1 = 
@@ -64,6 +70,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final Arm s_Arm = new Arm();
   private final Manipulator s_Manipulator = new Manipulator();
+  private final Intake s_Intake = new Intake();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -88,6 +95,12 @@ public class RobotContainer {
         () -> operator.getRawButton(manipulatorForward),
         () -> operator.getRawButton(manipulatorReverse))
     );
+
+    s_Intake.setDefaultCommand(
+        new TeleopIntake(s_Intake,
+        () -> operator.getRawAxis(intakeAxis))
+    );
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -100,7 +113,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Driver Buttons */
-//  zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));  //uncomment to use the single button zero gyro
     zeroGyro1.and(zeroGyro2).and(zeroGyro3).and(zeroGyro4).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
   }
 

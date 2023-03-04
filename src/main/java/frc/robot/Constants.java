@@ -148,4 +148,12 @@ public final class Constants {
     public static final int manipulatorLeftID = 21; //or 22
     public static final int manupulatorRightID = 22; //or 21
   }
+
+  public static final class Intake {
+    public static final int leftIntakeSpinnerID = 10;
+    public static final int rightIntakeSpinnerID = 11;
+
+    public static final double stickDeadband = 0.1;
+    public static final double maxIntakeSpeed = 0.6; //Out of 1
+  }
 }

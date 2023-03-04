@@ -19,4 +19,8 @@ public class Manipulator extends SubsystemBase {
         m_leftManipulatorWheel.set(-speed);
         m_rightManipulatorWheel.set(-speed);
     }
+
+    public void configureMotors() {
+        //nothing rn
+    }
 }
