@@ -39,9 +39,9 @@ public class visionAuto extends SequentialCommandGroup {
     if(area <= 0) {
         forwardAmount = 0;
     } else if(area <= 5.5) {
-        forwardAmount = 0.2/*  * (5.5-area) */;
+        forwardAmount = 0.1/*  * (5.5-area) */;
     } else if (area >= 6.5) {
-        forwardAmount = -0.2/*  * (area-6.5) */;
+        forwardAmount = -0.1/*  * (area-6.5) */;
     } else {
         forwardAmount = 0;
     }

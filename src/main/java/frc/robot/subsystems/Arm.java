@@ -31,6 +31,8 @@ public class Arm extends SubsystemBase {
 
     public void configureMotors() {
         m_armShoulder.setOpenLoopRampRate(0.25);
+        m_armTelescope.setSmartCurrentLimit(3);
+        m_armTelescope.burnFlash();
         m_armShoulder.burnFlash();
     }
 }
