@@ -11,9 +11,9 @@ public class AutoBalance extends CommandBase{
 
     private final Swerve s_Swerve;
     private final PIDController forwardController;
-    private final double kP = 0.1;
-    private final double kI = 0.1;
-    private final double kD = 0.1;
+    private final double kP = frc.robot.Constants.Swerve.driveKP; //try 0.1
+    private final double kI = frc.robot.Constants.Swerve.driveKI; //try 0.1
+    private final double kD = frc.robot.Constants.Swerve.driveKP; //try 0.1
     private final double maxOutput = 0.2;
     private double currentAngle;
     private double output;
