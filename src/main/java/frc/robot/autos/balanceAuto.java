@@ -16,8 +16,8 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.commands.AutoBalance;
 import java.util.List;
 
-public class chargeBalanceAuto extends SequentialCommandGroup {
-  public chargeBalanceAuto(Swerve s_Swerve) {
+public class balanceAuto extends SequentialCommandGroup {
+  public balanceAuto(Swerve s_Swerve) {
     TrajectoryConfig config =
         new TrajectoryConfig(
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,

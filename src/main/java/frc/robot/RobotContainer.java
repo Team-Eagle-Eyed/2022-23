@@ -12,8 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.autos.chargeBalanceAuto;
+import frc.robot.autos.balanceAuto;
 import frc.robot.autos.visionAuto;
+import frc.robot.commands.AutoBalance;
 import frc.robot.commands.TeleopArm;
 import frc.robot.commands.TeleopIntake;
 import frc.robot.commands.TeleopManipulator;
@@ -66,6 +67,9 @@ public class RobotContainer {
   private final JoystickButton zeroGyro4 = 
       new JoystickButton(driver, XboxController.Button.kB.value);
 
+  private final JoystickButton autoBalance = 
+      new JoystickButton(driver, XboxController.Button.kY.value);
+
   private SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 
@@ -78,7 +82,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_chooser.setDefaultOption("Simple Auto", new visionAuto(s_Swerve));
-    m_chooser.addOption("Complex Auto", new chargeBalanceAuto(s_Swerve));
+    m_chooser.addOption("Complex Auto", new balanceAuto(s_Swerve));
     SmartDashboard.putData(m_chooser);
 
 
@@ -122,6 +126,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro1.and(zeroGyro2).and(zeroGyro3).and(zeroGyro4).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    autoBalance.onTrue(new AutoBalance(s_Swerve));
   }
 
   /**
