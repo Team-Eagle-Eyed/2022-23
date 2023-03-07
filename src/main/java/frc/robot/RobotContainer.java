@@ -81,8 +81,8 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_chooser.setDefaultOption("Simple Auto", new visionAuto(s_Swerve));
-    m_chooser.addOption("Complex Auto", new balanceAuto(s_Swerve));
+    m_chooser.setDefaultOption("Vision Auto", new visionAuto(s_Swerve));
+    m_chooser.addOption("Balance Auto", new balanceAuto(s_Swerve));
     SmartDashboard.putData(m_chooser);
 
 
