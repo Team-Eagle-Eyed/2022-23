@@ -63,7 +63,9 @@ public class balanceAuto extends SequentialCommandGroup {
             s_Swerve);   
 
     addCommands(
-        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-        swerveControllerCommand, new AutoBalance(s_Swerve));
+        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())), //prep for trajectory
+        swerveControllerCommand, //follow trajectory onto charging station
+        new AutoBalance(s_Swerve), //balance on charging station, assuming robot is partially on there already
+        new InstantCommand(() -> s_Swerve.drive(new Translation2d(0, 0.01), 0, true, true))); //drive sideways slightly as to lock wheels parallel with charging station
   }
 }
