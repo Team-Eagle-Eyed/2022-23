@@ -91,7 +91,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public Double getPitch() {
-    return gyro.getPitch();
+    return gyro.getRoll();
   }
 
   public SwerveModulePosition[] getPositions() {

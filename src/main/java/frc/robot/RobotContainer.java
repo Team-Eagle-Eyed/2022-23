@@ -125,7 +125,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Driver Buttons */
-    zeroGyro1.and(zeroGyro2).and(zeroGyro3).and(zeroGyro4).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    zeroGyro2.and(zeroGyro3).and(zeroGyro4).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
     autoBalance.onTrue(new AutoBalance(s_Swerve));
   }
 
