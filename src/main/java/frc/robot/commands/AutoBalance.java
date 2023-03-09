@@ -11,54 +11,68 @@ import frc.robot.subsystems.Swerve;
 public class AutoBalance extends CommandBase{
 
     private final Swerve s_Swerve;
-    private final PIDController forwardController;
+    private final PIDController pitchController;
+    private final PIDController rollController;
     private final double kP = 0.2;
     private final double kI = 0;
     private final double kD = 0;
     private final double maxOutput = 0.6;
     private double currentPitch;
+    private double currentRoll;
     private double previousPitch;
-    private double tiltSpeed;
-    private double output;
+    private double previousRoll;
+    private double pitchTiltSpeed;
+    private double rollTiltSpeed;
+    private double pitchOutput;
+    private double rollOutput;
 
     public AutoBalance(Swerve subsystem) {
         this.s_Swerve = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(s_Swerve);
 
-        forwardController = new PIDController(kP, kI, kD);
-        forwardController.setTolerance(3);
+        pitchController = new PIDController(kP, kI, kD);
+        pitchController.setTolerance(3);
+        rollController = new PIDController(kP, kI, kD);
+        pitchController.setTolerance(3);
       }
     
     @Override
     public void initialize() {
-        forwardController.setSetpoint(1);
+        pitchController.setSetpoint(1);
+        rollController.setSetpoint(1);
     }
 
     @Override
     public void execute() {
+        /* Pitch correction calculations */
         currentPitch = s_Swerve.getPitch();
-        
-        tiltSpeed = previousPitch - currentPitch;
-
-        tiltSpeed = (tiltSpeed + previousPitch - currentPitch) * 0.4;
-
-        if(Math.abs(tiltSpeed) > 0.2 || Math.abs(currentPitch) < 7) {
-            forwardController.setP(0);
+        pitchTiltSpeed = previousPitch - currentPitch;
+        pitchTiltSpeed = (pitchTiltSpeed + previousPitch - currentPitch) * 0.4;
+        if(Math.abs(pitchTiltSpeed) > 0.2 || Math.abs(currentPitch) < 7) {
+            pitchController.setP(0);
         } else {
-            forwardController.setP(0.2);
+            pitchController.setP(kP);
         }
-
-        SmartDashboard.putNumber("Tiltspeed", tiltSpeed);
-
-        output = MathUtil.clamp(forwardController.calculate(currentPitch, 1), -maxOutput, maxOutput);
-        SmartDashboard.putNumber("Output Power", output);
-        SmartDashboard.putNumber("Current Pitch2", currentPitch);
-
-        s_Swerve.drive(new Translation2d(-output, 0), 0, true, true);
+        pitchOutput = MathUtil.clamp(pitchController.calculate(currentPitch, 1), -maxOutput, maxOutput);
         previousPitch = currentPitch;
 
-        if(forwardController.atSetpoint()) {
+
+        /* Roll correction calculations */
+        currentRoll = s_Swerve.getRoll();
+        rollTiltSpeed = previousRoll - currentRoll;
+        rollTiltSpeed = (rollTiltSpeed + previousRoll - currentRoll) * 0.4;
+        if(Math.abs(rollTiltSpeed) > 0.2 || Math.abs(currentRoll) < 7) {
+            rollController.setP(0);
+        } else {
+            rollController.setP(kP);
+        }
+        rollOutput = MathUtil.clamp(rollController.calculate(currentRoll, 1), -maxOutput, maxOutput);
+        previousRoll = currentRoll;
+
+        
+        s_Swerve.drive(new Translation2d(-pitchOutput, -rollOutput), 0, true, true);
+        if(pitchController.atSetpoint() && rollController.atSetpoint()) {
             this.cancel();
         }
     }
