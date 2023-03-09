@@ -73,7 +73,7 @@ public class AutoBalance extends CommandBase{
         
         s_Swerve.drive(new Translation2d(-pitchOutput, -rollOutput), 0, true, true);
         if(pitchController.atSetpoint() && rollController.atSetpoint()) {
-            s_Swerve.drive(new Translation2d(0, 0.01), 0, true, true)
+            s_Swerve.drive(new Translation2d(0, 0.01), 0, true, true);
             this.cancel();
         }
     }
