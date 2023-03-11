@@ -31,9 +31,9 @@ public class TeleopManipulator extends CommandBase {
     @Override
     public void execute() {
         if (manipulatorForward.getAsBoolean()) {
-          manipulatorSpeed = 1;
+          manipulatorSpeed = 0.8;
         } else if (manipulatorReverse.getAsBoolean()) {
-          manipulatorSpeed = -.15;
+          manipulatorSpeed = -.075;
         } else {
           manipulatorSpeed = 0;
         }

@@ -91,7 +91,7 @@ public class RobotContainer {
             s_Swerve,
             () -> -driver.getRawAxis(translationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
             () -> -driver.getRawAxis(strafeAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
-            () -> -driver.getRawAxis(rotationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
+            () -> -driver.getRawAxis(rotationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1) * 0.5,
             () -> robotCentric.getAsBoolean()));
     
     s_Arm.setDefaultCommand(
