@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.balanceAuto;
 import frc.robot.autos.exampleAuto;
 import frc.robot.autos.visionAuto;
-import frc.robot.autos.exampleAuto;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.TeleopArm;
 import frc.robot.commands.TeleopIntake;
@@ -44,17 +43,14 @@ public class RobotContainer {
   private final int speedAxis = XboxController.Axis.kRightTrigger.value;
 
   /* Arm Controls */
-  private final int telescopeAxis = XboxController.Axis.kLeftY.value;
   private final int shoulderAxis = XboxController.Axis.kRightY.value;
-  private final int armPivotAxis = XboxController.Axis.kLeftX.value;
 
   /* Manipulator Controls */
   private final int manipulatorForward = XboxController.Button.kX.value;
   private final int manipulatorReverse = XboxController.Button.kB.value;
 
   /* Intake Controls */
-  private final int intakeAxis = XboxController.Axis.kRightY.value;
-
+  private final int intakeAxis = XboxController.Axis.kLeftY.value;
 
   /* Driver Buttons */
   private final JoystickButton robotCentric =
@@ -91,14 +87,13 @@ public class RobotContainer {
             s_Swerve,
             () -> -driver.getRawAxis(translationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
             () -> -driver.getRawAxis(strafeAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
-            () -> -driver.getRawAxis(rotationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1) * 0.5,
+            () -> -driver.getRawAxis(rotationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1) * 0.75,
             () -> robotCentric.getAsBoolean()));
     
     s_Arm.setDefaultCommand(
         new TeleopArm(s_Arm,
-        () -> operator.getRawAxis(telescopeAxis),
-        () -> operator.getRawAxis(shoulderAxis),
-        () -> operator.getRawAxis(armPivotAxis))
+        () -> operator.getPOV(),
+        () -> operator.getRawAxis(shoulderAxis))
     );
 
     s_Manipulator.setDefaultCommand(
@@ -109,7 +104,7 @@ public class RobotContainer {
 
     s_Intake.setDefaultCommand(
         new TeleopIntake(s_Intake,
-        () -> driver.getRawAxis(intakeAxis))
+        () -> operator.getRawAxis(intakeAxis))
     );
 
     // Configure the button bindings

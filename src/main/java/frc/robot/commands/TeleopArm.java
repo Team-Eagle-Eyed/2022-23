@@ -2,22 +2,19 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class TeleopArm extends CommandBase {
 
     private final Arm s_Arm;
-    private final DoubleSupplier telescopeSpeed;
+    private final DoubleSupplier POV;
     private final DoubleSupplier shoulderSpeed;
-    private final DoubleSupplier pivotSpeed;
 
-    public TeleopArm(Arm subsystem, DoubleSupplier telescopeSpeed, DoubleSupplier shoulderSpeed, DoubleSupplier pivotSpeed) {
+    public TeleopArm(Arm subsystem, DoubleSupplier POV, DoubleSupplier shoulderSpeed) {
         s_Arm = subsystem;
-        this.telescopeSpeed = telescopeSpeed;
+        this.POV = POV;
         this.shoulderSpeed = shoulderSpeed;
-        this.pivotSpeed = pivotSpeed;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(s_Arm);
       }
@@ -31,9 +28,22 @@ public class TeleopArm extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        s_Arm.telescopeArm(telescopeSpeed.getAsDouble());
-        s_Arm.runShoulder(-shoulderSpeed.getAsDouble());
-        s_Arm.rotateArm(MathUtil.applyDeadband(pivotSpeed.getAsDouble(), 0.1));
+      if (POV.getAsDouble() == 0) {
+        s_Arm.telescopeArm(1);
+      } else if(POV.getAsDouble() == 180) {
+        s_Arm.telescopeArm(-1);
+      } else {
+        s_Arm.telescopeArm(0);
+      }
+
+      if(POV.getAsDouble() == 90) {
+        s_Arm.rotateArm(1);
+      } else if (POV.getAsDouble() == 270) {
+        s_Arm.rotateArm(-1);
+      } else {
+        s_Arm.rotateArm(0);
+      }
+      s_Arm.runShoulder(-shoulderSpeed.getAsDouble());
     }
     
     // Called once the command ends or is interrupted.

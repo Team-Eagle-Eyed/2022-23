@@ -33,7 +33,7 @@ public class TeleopManipulator extends CommandBase {
         if (manipulatorForward.getAsBoolean()) {
           manipulatorSpeed = 0.8;
         } else if (manipulatorReverse.getAsBoolean()) {
-          manipulatorSpeed = -.075;
+          manipulatorSpeed = -0.15;
         } else {
           manipulatorSpeed = 0;
         }

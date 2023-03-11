@@ -5,7 +5,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -35,8 +34,8 @@ public class Arm extends SubsystemBase {
     }
 
     public void configureMotors() {
-        m_armShoulder.setOpenLoopRampRate(0.25);
         m_armShoulder.setOpenLoopRampRate(0.3);
+        m_armShoulder.setSmartCurrentLimit(10);
         m_armShoulder.setInverted(true);
         m_armRotate.setOpenLoopRampRate(0.5);
         m_armRotate.setInverted(true);

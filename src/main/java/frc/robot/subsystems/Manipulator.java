@@ -22,8 +22,8 @@ public class Manipulator extends SubsystemBase {
     }
 
     public void configureMotors() {
-        m_leftManipulatorWheel.setSmartCurrentLimit(10);
-        m_rightManipulatorWheel.setSmartCurrentLimit(10);
+        m_leftManipulatorWheel.setSmartCurrentLimit(14);
+        m_rightManipulatorWheel.setSmartCurrentLimit(14);
         m_leftManipulatorWheel.burnFlash();
         m_rightManipulatorWheel.burnFlash();
     }
