@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Swerve;
 
@@ -25,6 +24,7 @@ public class AutoBalance extends CommandBase{
     private double rollTiltSpeed;
     private double pitchOutput;
     private double rollOutput;
+    private double passCount;
 
     public AutoBalance(Swerve subsystem) {
         this.s_Swerve = subsystem;
@@ -71,9 +71,14 @@ public class AutoBalance extends CommandBase{
         previousRoll = currentRoll;
 
         
-        s_Swerve.drive(new Translation2d(-pitchOutput, -rollOutput), 0, true, true);
-        if(pitchController.atSetpoint() && rollController.atSetpoint()) {
-            s_Swerve.drive(new Translation2d(0, 0.01), 0, true, true);
+        s_Swerve.drive(new Translation2d(-pitchOutput, 0), 0, true, true);
+        if(pitchController.atSetpoint()/*  && rollController.atSetpoint() */) {
+            passCount++;
+        } else {
+            passCount = 0;
+        }
+        if(passCount >= 50) {
+            s_Swerve.drive(new Translation2d(0, 0.05), 0, true, true);
             this.cancel();
         }
     }

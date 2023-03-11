@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.balanceAuto;
+import frc.robot.autos.exampleAuto;
 import frc.robot.autos.visionAuto;
+import frc.robot.autos.exampleAuto;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.TeleopArm;
 import frc.robot.commands.TeleopIntake;
@@ -44,8 +46,7 @@ public class RobotContainer {
   /* Arm Controls */
   private final int telescopeAxis = XboxController.Axis.kLeftY.value;
   private final int shoulderAxis = XboxController.Axis.kRightY.value;
-  private final int pivotRightAxis = XboxController.Axis.kRightTrigger.value;
-  private final int pivotLeftAxis = XboxController.Axis.kLeftTrigger.value;
+  private final int armPivotAxis = XboxController.Axis.kLeftX.value;
 
   /* Manipulator Controls */
   private final int manipulatorForward = XboxController.Button.kX.value;
@@ -79,8 +80,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_chooser.setDefaultOption("Vision Auto", new visionAuto(s_Swerve));
-    m_chooser.addOption("Balance Auto", new balanceAuto(s_Swerve));
+    m_chooser.setDefaultOption("Balance Auto", new balanceAuto(s_Swerve));
+    m_chooser.addOption("Vision Auto", new visionAuto(s_Swerve));
+    m_chooser.addOption("Example Auto", new exampleAuto(s_Swerve));
     SmartDashboard.putData(m_chooser);
 
 
@@ -96,8 +98,7 @@ public class RobotContainer {
         new TeleopArm(s_Arm,
         () -> operator.getRawAxis(telescopeAxis),
         () -> operator.getRawAxis(shoulderAxis),
-        () -> operator.getRawAxis(pivotRightAxis),
-        () -> operator.getRawAxis(pivotLeftAxis))
+        () -> operator.getRawAxis(armPivotAxis))
     );
 
     s_Manipulator.setDefaultCommand(
@@ -133,8 +134,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    // return new exampleAuto(s_Swerve);
+    // Will run in autonomous
     return m_chooser.getSelected();
   }
 }

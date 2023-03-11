@@ -8,20 +8,18 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
-import frc.robot.commands.AutoBalance;
 import java.util.List;
 
-public class balanceAuto extends SequentialCommandGroup {
-  public balanceAuto(Swerve s_Swerve) {
+public class exampleAuto extends SequentialCommandGroup {
+  public exampleAuto(Swerve s_Swerve) {
     TrajectoryConfig config =
         new TrajectoryConfig(
-                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                1,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
             .setKinematics(Constants.Swerve.swerveKinematics);
 
@@ -29,16 +27,11 @@ public class balanceAuto extends SequentialCommandGroup {
     Trajectory exampleTrajectory =
         TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction
-            new Pose2d(Units.inchesToMeters(0), Units.inchesToMeters(0), new Rotation2d(0)),
+            new Pose2d(0, 0, new Rotation2d(180)),
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(
-                new Translation2d(Units.inchesToMeters(50), 0),
-                new Translation2d(Units.inchesToMeters(100), 0),
-                new Translation2d(Units.inchesToMeters(150), 0),
-                new Translation2d(Units.inchesToMeters(175), Units.inchesToMeters(50))
-                ),
+            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(Units.inchesToMeters(99), Units.inchesToMeters(50), new Rotation2d(0)),
+            new Pose2d(3, 0, new Rotation2d(0)),
             config);
 
     var thetaController =
@@ -58,12 +51,10 @@ public class balanceAuto extends SequentialCommandGroup {
             new PIDController(Constants.AutoConstants.kPYController, 0, 0),
             thetaController,
             s_Swerve::setModuleStates,
-            s_Swerve);   
+            s_Swerve);
 
     addCommands(
-        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())), //prep for trajectory
-        swerveControllerCommand, //follow trajectory onto charging station
-        new AutoBalance(s_Swerve) //balance on charging station, assuming robot is partially on there already
-        );
+        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+        swerveControllerCommand);
   }
 }

@@ -225,58 +225,6 @@
               "_glyph": 148,
               "_showGlyph": false
             }
-          },
-          "0,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Current Pitch",
-              "_title": "Current Pitch",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "1,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Output Power",
-              "_title": "Output Power",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Current Pitch2",
-              "_title": "Current Pitch2",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Tiltspeed",
-              "_title": "SmartDashboard/Tiltspeed",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
           }
         }
       }
