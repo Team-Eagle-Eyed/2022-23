@@ -12,10 +12,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.autos.altPPBalance;
+import frc.robot.autos.balanceAutoOutside;
 import frc.robot.autos.balanceAuto;
+import frc.robot.autos.balanceAutoCenter;
 import frc.robot.autos.exampleAuto;
-import frc.robot.autos.pathplannerBalance;
+import frc.robot.autos.balanceAutoInside;
 import frc.robot.autos.visionAuto;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.TeleopArm;
@@ -78,11 +79,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_chooser.setDefaultOption("Balance Auto", new balanceAuto(s_Swerve));
-    m_chooser.addOption("Vision Auto", new visionAuto(s_Swerve));
-    m_chooser.addOption("Example Auto", new exampleAuto(s_Swerve));
-    m_chooser.addOption("Pathplanner test auto", new pathplannerBalance(s_Swerve));
-    m_chooser.addOption("Apt PP auto", new altPPBalance(s_Swerve));
+    m_chooser.setDefaultOption("Balance Auto Inside", new balanceAutoInside(s_Swerve));
+    m_chooser.addOption("Balance Auto Outside", new balanceAutoOutside(s_Swerve));
+    m_chooser.addOption("Balance Auto Center", new balanceAutoCenter(s_Swerve));
     SmartDashboard.putData(m_chooser);
 
 
