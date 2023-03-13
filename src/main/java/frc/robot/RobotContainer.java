@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.balanceAuto;
 import frc.robot.autos.exampleAuto;
+import frc.robot.autos.pathplannerAuto;
 import frc.robot.autos.visionAuto;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.TeleopArm;
@@ -79,6 +80,7 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Balance Auto", new balanceAuto(s_Swerve));
     m_chooser.addOption("Vision Auto", new visionAuto(s_Swerve));
     m_chooser.addOption("Example Auto", new exampleAuto(s_Swerve));
+    m_chooser.addOption("Pathplanner test auto", new pathplannerAuto(s_Swerve));
     SmartDashboard.putData(m_chooser);
 
 
