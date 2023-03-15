@@ -17,9 +17,13 @@ public class AutoBalance extends CommandBase {
     private final double kD = 0;
     private final double maxOutput = 0.6;
     private double currentPitch;
+    private double currentRoll;
     private double previousPitch;
+    private double previousRoll;
     private double pitchTiltSpeed;
+    private double rollTiltSpeed;
     private double pitchOutput;
+    private double rollOutput;
     
     private double passCount;
 
@@ -53,6 +57,18 @@ public class AutoBalance extends CommandBase {
         }
         pitchOutput = MathUtil.clamp(pitchController.calculate(currentPitch, 1), -maxOutput, maxOutput);
         previousPitch = currentPitch;
+
+        /* Roll correction calculations */
+        currentRoll = s_Swerve.getRoll();
+        rollTiltSpeed = previousRoll - currentRoll;
+        rollTiltSpeed = (rollTiltSpeed + previousRoll - currentRoll) * 0.4;
+        if(Math.abs(rollTiltSpeed) > 0.2 || Math.abs(currentRoll) < 7) {
+            rollController.setP(0);
+        } else {
+            rollController.setP(kP);
+        }
+        rollOutput = MathUtil.clamp(rollController.calculate(currentRoll, 1), -maxOutput, maxOutput);
+        previousRoll = currentRoll;
         
         s_Swerve.drive(new Translation2d(-pitchOutput, 0), 0, false, true);
         if(pitchController.atSetpoint()/*  && rollController.atSetpoint() */) {
