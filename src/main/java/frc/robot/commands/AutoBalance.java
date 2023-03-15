@@ -70,8 +70,8 @@ public class AutoBalance extends CommandBase {
         rollOutput = MathUtil.clamp(rollController.calculate(currentRoll, 1), -maxOutput, maxOutput);
         previousRoll = currentRoll;
         
-        s_Swerve.drive(new Translation2d(-pitchOutput, 0), 0, false, true);
-        if(pitchController.atSetpoint()/*  && rollController.atSetpoint() */) {
+        s_Swerve.drive(new Translation2d(-pitchOutput, -rollOutput), 0, false, true);
+        if(pitchController.atSetpoint() && rollController.atSetpoint()) {
             passCount++;
         } else {
             passCount = 0;

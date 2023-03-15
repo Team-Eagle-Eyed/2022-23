@@ -153,6 +153,7 @@ public class SwerveModule {
       if (code == ErrorCode.OK) {
         break;
       }
+      System.out.println("CANcoder attempt " + i + "/" + ATTEMPTS);
       try {
         Thread.sleep(10);
       } catch (InterruptedException e) {
