@@ -3,6 +3,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -41,6 +42,10 @@ public class Arm extends SubsystemBase {
         m_armRotate.setInverted(true);
         m_armTelescope.setSmartCurrentLimit(8);
         m_armTelescope.setInverted(true);
+
+        m_armShoulder.enableSoftLimit(SoftLimitDirection.kForward, true);
+        m_armShoulder.setSoftLimit(SoftLimitDirection.kForward, 93);
+
         m_armTelescope.burnFlash();
         m_armRotate.burnFlash();
         m_armShoulder.burnFlash();

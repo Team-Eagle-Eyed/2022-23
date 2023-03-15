@@ -26,7 +26,6 @@ public class Swerve extends SubsystemBase {
     gyro = new Pigeon2(Constants.Swerve.pigeonID, "*");
     gyro.configFactoryDefault();
     zeroGyro(0);
-    gyro.setYaw(180); //we do this because the autonomous ends with it facing backwards
 
     mSwerveMods =
         new SwerveModule[] {

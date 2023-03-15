@@ -14,8 +14,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.balanceAutoOutside;
 import frc.robot.autos.balanceAutoCenter;
+import frc.robot.autos.balanceAutoCharge;
 import frc.robot.autos.balanceAutoInside;
 import frc.robot.commands.AutoBalance;
+import frc.robot.commands.CenterTag;
 import frc.robot.commands.TeleopArm;
 import frc.robot.commands.TeleopIntake;
 import frc.robot.commands.TeleopManipulator;
@@ -79,8 +81,11 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Balance Auto Inside", new balanceAutoInside(s_Swerve));
     m_chooser.addOption("Balance Auto Outside", new balanceAutoOutside(s_Swerve));
     m_chooser.addOption("Balance Auto Center", new balanceAutoCenter(s_Swerve));
+    m_chooser.addOption("Balance Auto Charge", new balanceAutoCharge(s_Swerve));
+    m_chooser.addOption("Center Tag Auto", new CenterTag(s_Swerve));
     m_chooser.addOption("Nothing", new InstantCommand());
     SmartDashboard.putData(m_chooser);
+    SmartDashboard.putNumber("SpeedLimit", 1);
 
 
     s_Swerve.setDefaultCommand(

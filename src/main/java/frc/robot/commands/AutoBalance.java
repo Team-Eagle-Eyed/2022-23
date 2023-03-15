@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Swerve;
 
 
-public class AutoBalance extends CommandBase{
+public class AutoBalance extends CommandBase {
 
     private final Swerve s_Swerve;
     private final PIDController pitchController;
@@ -31,7 +31,7 @@ public class AutoBalance extends CommandBase{
         pitchController = new PIDController(kP, kI, kD);
         pitchController.setTolerance(3);
         rollController = new PIDController(kP, kI, kD);
-        pitchController.setTolerance(3);
+        rollController.setTolerance(3);
       }
     
     @Override
@@ -54,7 +54,7 @@ public class AutoBalance extends CommandBase{
         pitchOutput = MathUtil.clamp(pitchController.calculate(currentPitch, 1), -maxOutput, maxOutput);
         previousPitch = currentPitch;
         
-        s_Swerve.drive(new Translation2d(-pitchOutput, 0), 0, true, true);
+        s_Swerve.drive(new Translation2d(-pitchOutput, 0), 0, false, true);
         if(pitchController.atSetpoint()/*  && rollController.atSetpoint() */) {
             passCount++;
         } else {
