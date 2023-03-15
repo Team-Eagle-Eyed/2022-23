@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
@@ -10,6 +11,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.lib.config.SwerveModuleConstants;
 import frc.lib.math.OnboardModuleState;
 import frc.lib.util.CANCoderUtil;
@@ -143,7 +145,28 @@ public class SwerveModule {
   }
 
   public Rotation2d getCanCoder() {
-    return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
+    double angle = angleEncoder.getAbsolutePosition();
+
+    ErrorCode code = angleEncoder.getLastError();
+    int ATTEMPTS = 3;
+    for (int i = 0; i < ATTEMPTS; i++) {
+      if (code == ErrorCode.OK) {
+        break;
+      }
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+      }
+      angle = angleEncoder.getAbsolutePosition();
+      code = angleEncoder.getLastError();
+    }
+    if (code != ErrorCode.OK) {
+      DriverStation.reportWarning(
+          "CANCoder " + angleEncoder.getDeviceID() + " reading was faulty, ignoring.\n", false);
+    }
+
+    return Rotation2d.fromDegrees(angle);
+    //return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition()); // uncomment and remove above code in getCanCoder function to go back to original system
   }
 
   public SwerveModuleState getState() {
