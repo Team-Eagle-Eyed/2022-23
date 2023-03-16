@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.balanceAutoOutside;
+import frc.robot.autos.dummyLeft;
+import frc.robot.autos.dummyRight;
 import frc.robot.autos.balanceAutoCenter;
 import frc.robot.autos.balanceAutoCharge;
 import frc.robot.autos.balanceAutoInside;
@@ -78,10 +80,12 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_chooser.setDefaultOption("Balance Auto Inside", new balanceAutoInside(s_Swerve));
-    m_chooser.addOption("Balance Auto Outside", new balanceAutoOutside(s_Swerve));
-    m_chooser.addOption("Balance Auto Center", new balanceAutoCenter(s_Swerve));
-    m_chooser.addOption("Balance Auto Charge", new balanceAutoCharge(s_Swerve));
+    m_chooser.setDefaultOption("Balance Auto Inside", new balanceAutoInside(s_Swerve, s_Intake));
+    m_chooser.addOption("Balance Auto Outside", new balanceAutoOutside(s_Swerve, s_Intake));
+    m_chooser.addOption("Balance Auto Center", new balanceAutoCenter(s_Swerve, s_Intake));
+    m_chooser.addOption("Balance Auto Charge", new balanceAutoCharge(s_Swerve, s_Intake));
+    m_chooser.addOption("Dummy Left", new dummyLeft(s_Swerve, s_Intake));
+    m_chooser.addOption("Dummy Right", new dummyRight(s_Swerve, s_Intake));
     m_chooser.addOption("Center Tag Auto", new CenterTag(s_Swerve));
     m_chooser.addOption("Nothing", new InstantCommand());
     SmartDashboard.putData(m_chooser);

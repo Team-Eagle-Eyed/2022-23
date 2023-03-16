@@ -1,11 +1,14 @@
 package frc.robot;
 
+import java.util.HashMap;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.config.SwerveModuleConstants;
 
 public final class Constants {
@@ -136,6 +139,8 @@ public final class Constants {
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
         new TrapezoidProfile.Constraints(
             kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    
+    public static final HashMap<String, Command> autoHashmap = new HashMap<>();
   }
 
   public static final class Arm {
@@ -154,6 +159,6 @@ public final class Constants {
     public static final int rightIntakeSpinnerID = 11;
 
     public static final double stickDeadband = 0.1;
-    public static final double maxIntakeSpeed = 0.325; //Out of 1
+    public static final double maxIntakeSpeed = 0.45; //Out of 1
   }
 }

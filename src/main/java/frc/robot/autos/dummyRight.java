@@ -17,9 +17,9 @@ import frc.robot.commands.AutoBalance;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
 
-public class balanceAutoOutside extends SequentialCommandGroup{
-    public balanceAutoOutside(Swerve s_Swerve, Intake s_Intake) {
-        List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("balanceAutoOutside", new PathConstraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond, Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+public class dummyRight extends SequentialCommandGroup{
+    public dummyRight(Swerve s_Swerve, Intake s_Intake) {
+        List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("dummyRight", new PathConstraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond, Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
         HashMap<String, Command> eventMap = new HashMap<>();
         eventMap.put("balance", new AutoBalance(s_Swerve));

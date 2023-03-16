@@ -14,15 +14,22 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.AutoBalance;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
 
 public class balanceAutoCenter extends SequentialCommandGroup{
-    public balanceAutoCenter(Swerve s_Swerve) {
+    public balanceAutoCenter(Swerve s_Swerve, Intake s_Intake) {
         List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("balanceAutoCenter", new PathConstraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond, Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
         HashMap<String, Command> eventMap = new HashMap<>();
         eventMap.put("balance", new AutoBalance(s_Swerve));
         eventMap.put("gyro180", new InstantCommand(() -> s_Swerve.zeroGyro(180)));
+        eventMap.put("ejectLow", new InstantCommand(() -> {
+            s_Intake.run(-0.17);
+        }));
+        eventMap.put("ejectHigh", new InstantCommand(() -> {
+            s_Intake.run(-1);
+        }));
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
             s_Swerve::getPose, // Pose2d supplier
