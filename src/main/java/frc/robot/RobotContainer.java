@@ -13,8 +13,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.balanceAutoOutside;
-import frc.robot.autos.dummyLeft;
-import frc.robot.autos.dummyRight;
+import frc.robot.autos.dummyOutside;
+import frc.robot.autos.twoCube;
+import frc.robot.autos.dummyInside;
 import frc.robot.autos.balanceAutoCenter;
 import frc.robot.autos.balanceAutoCharge;
 import frc.robot.autos.balanceAutoInside;
@@ -55,6 +56,7 @@ public class RobotContainer {
 
   /* Intake Controls */
   private final int intakeAxis = XboxController.Axis.kLeftY.value;
+  private final int turboFlail = XboxController.Button.kY.value;
 
   /* Driver Buttons */
   private final JoystickButton robotCentric =
@@ -65,7 +67,8 @@ public class RobotContainer {
       new JoystickButton(driver, XboxController.Button.kA.value);
   private final JoystickButton zeroGyro4 = 
       new JoystickButton(driver, XboxController.Button.kB.value);
-
+  private final JoystickButton resetWheels = 
+      new JoystickButton(driver, XboxController.Button.kB.value);
   private final JoystickButton autoBalance = 
       new JoystickButton(driver, XboxController.Button.kY.value);
 
@@ -84,8 +87,9 @@ public class RobotContainer {
     m_chooser.addOption("Balance Auto Outside", new balanceAutoOutside(s_Swerve, s_Intake));
     m_chooser.addOption("Balance Auto Center", new balanceAutoCenter(s_Swerve, s_Intake));
     m_chooser.addOption("Balance Auto Charge", new balanceAutoCharge(s_Swerve, s_Intake));
-    m_chooser.addOption("Dummy Left", new dummyLeft(s_Swerve, s_Intake));
-    m_chooser.addOption("Dummy Right", new dummyRight(s_Swerve, s_Intake));
+    m_chooser.addOption("Dummy Left", new dummyOutside(s_Swerve, s_Intake));
+    m_chooser.addOption("Dummy Right", new dummyInside(s_Swerve, s_Intake));
+    m_chooser.addOption("Two Cube Auto", new twoCube(s_Swerve, s_Intake));
     m_chooser.addOption("Center Tag Auto", new CenterTag(s_Swerve));
     m_chooser.addOption("Nothing", new InstantCommand());
     SmartDashboard.putData(m_chooser);
@@ -97,12 +101,12 @@ public class RobotContainer {
             s_Swerve,
             () -> -driver.getRawAxis(translationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
             () -> -driver.getRawAxis(strafeAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
-            () -> -driver.getRawAxis(rotationAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1) * 0.75,
+            () -> -driver.getRawAxis(rotationAxis) * SmartDashboard.getNumber("SpeedLimit", 1) * 0.60,
             () -> robotCentric.getAsBoolean()));
     
     s_Arm.setDefaultCommand(
         new TeleopArm(s_Arm,
-        () -> operator.getPOV(),
+        () -> operator.getPOV(), //operator::getPOV,
         () -> operator.getRawAxis(shoulderAxis))
     );
 
@@ -114,7 +118,8 @@ public class RobotContainer {
 
     s_Intake.setDefaultCommand(
         new TeleopIntake(s_Intake,
-        () -> operator.getRawAxis(intakeAxis))
+        () -> operator.getRawAxis(intakeAxis),
+        () -> operator.getRawButton(turboFlail))
     );
 
     // Configure the button bindings
@@ -130,7 +135,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro2.and(zeroGyro3).and(zeroGyro4).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0)));
-    autoBalance.onTrue(new AutoBalance(s_Swerve));
+    autoBalance.whileTrue(new AutoBalance(s_Swerve));
+    resetWheels.onTrue(new InstantCommand(() -> s_Swerve.resetWheelsToAbsolute()));
   }
 
   /**

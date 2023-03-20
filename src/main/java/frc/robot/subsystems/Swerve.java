@@ -68,6 +68,12 @@ public class Swerve extends SubsystemBase {
     return swerveOdometry.getPoseMeters();
   }
 
+  public void resetWheelsToAbsolute() {
+    for(SwerveModule mod : mSwerveMods) {
+      mod.resetToAbsolute();
+    }
+  }
+
   public void resetOdometry(Pose2d pose) {
     swerveOdometry.resetPosition(getYaw(), getPositions(), pose);
   }

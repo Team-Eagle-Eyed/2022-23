@@ -12,7 +12,7 @@ public class AutoBalance extends CommandBase {
     private final Swerve s_Swerve;
     private final PIDController pitchController;
     private final PIDController rollController;
-    private final double kP = 0.2;
+    private final double kP = 0.14;
     private final double kI = 0;
     private final double kD = 0;
     private final double maxOutput = 0.6;
@@ -26,6 +26,7 @@ public class AutoBalance extends CommandBase {
     private double rollOutput;
     
     private double passCount;
+    private double turnBrake;
 
     public AutoBalance(Swerve subsystem) {
         this.s_Swerve = subsystem;
@@ -40,8 +41,8 @@ public class AutoBalance extends CommandBase {
     
     @Override
     public void initialize() {
-        pitchController.setSetpoint(0);
-        rollController.setSetpoint(0);
+        pitchController.setSetpoint(1);
+        rollController.setSetpoint(1);
     }
 
     @Override
@@ -69,15 +70,22 @@ public class AutoBalance extends CommandBase {
         }
         rollOutput = MathUtil.clamp(rollController.calculate(currentRoll), -maxOutput, maxOutput);
         previousRoll = currentRoll;
+        s_Swerve.drive(new Translation2d(-pitchOutput, -rollOutput), turnBrake, false, true);
         
-        s_Swerve.drive(new Translation2d(-pitchOutput, -rollOutput), 0, false, true);
         if(pitchController.atSetpoint() && rollController.atSetpoint()) {
             passCount++;
         } else {
             passCount = 0;
         }
+        if (rollController.getP() == 0 && pitchController.getP() == 0) {
+            if (turnBrake == 0.1) return;
+            s_Swerve.drive(new Translation2d(0, 0), 0.5, true, true);
+            turnBrake = 0.1;
+        } else {
+            turnBrake = 0;
+        }
         if(passCount >= 50) {
-            s_Swerve.drive(new Translation2d(0, 0), 0.15, true, true);
+            s_Swerve.drive(new Translation2d(0, 0), 0.5, true, true);
             this.cancel();
         }
     }

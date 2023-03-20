@@ -25,11 +25,15 @@ public class balanceAutoCenter extends SequentialCommandGroup{
         eventMap.put("balance", new AutoBalance(s_Swerve));
         eventMap.put("gyro180", new InstantCommand(() -> s_Swerve.zeroGyro(180)));
         eventMap.put("ejectLow", new InstantCommand(() -> {
-            s_Intake.run(-0.17);
+            s_Intake.run(-0.13);
         }));
         eventMap.put("ejectHigh", new InstantCommand(() -> {
             s_Intake.run(-1);
         }));
+        eventMap.put("intake", new InstantCommand(() -> {
+            s_Intake.run(1);
+        }));
+        eventMap.put("alignWheels", new InstantCommand(() -> s_Swerve.resetWheelsToAbsolute()));
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
             s_Swerve::getPose, // Pose2d supplier

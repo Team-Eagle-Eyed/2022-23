@@ -17,7 +17,7 @@ public class Arm extends SubsystemBase {
     public Arm() {}
 
     public void rotateArm(double speed) {
-        m_armRotate.set(speed * 0.5);
+        //m_armRotate.set(speed * 0.5); // disabled for now
     }
 
     public void telescopeArm(double speed) {
@@ -39,7 +39,7 @@ public class Arm extends SubsystemBase {
         m_armShoulder.setInverted(true);
         m_armRotate.setOpenLoopRampRate(0.5);
         m_armRotate.setInverted(true);
-        m_armTelescope.setSmartCurrentLimit(8);
+        m_armTelescope.setSmartCurrentLimit(5);
         m_armTelescope.setInverted(true);
         m_armTelescope.setOpenLoopRampRate(0);
 

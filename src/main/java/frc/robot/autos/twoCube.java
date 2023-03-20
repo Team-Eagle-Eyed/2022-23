@@ -17,19 +17,23 @@ import frc.robot.commands.AutoBalance;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
 
-public class dummyLeft extends SequentialCommandGroup{
-    public dummyLeft(Swerve s_Swerve, Intake s_Intake) {
-        List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("dummyLeft", new PathConstraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond, Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+public class twoCube extends SequentialCommandGroup{
+    public twoCube(Swerve s_Swerve, Intake s_Intake) {
+        List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("twoCube", new PathConstraints(Constants.AutoConstants.kMaxSpeedMetersPerSecond, Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
         HashMap<String, Command> eventMap = new HashMap<>();
         eventMap.put("balance", new AutoBalance(s_Swerve));
         eventMap.put("gyro180", new InstantCommand(() -> s_Swerve.zeroGyro(180)));
         eventMap.put("ejectLow", new InstantCommand(() -> {
-            s_Intake.run(-0.17);
+            s_Intake.run(-0.13);
         }));
         eventMap.put("ejectHigh", new InstantCommand(() -> {
             s_Intake.run(-1);
         }));
+        eventMap.put("intake", new InstantCommand(() -> {
+            s_Intake.run(1);
+        }));
+        eventMap.put("alignWheels", new InstantCommand(() -> s_Swerve.resetWheelsToAbsolute()));
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
             s_Swerve::getPose, // Pose2d supplier

@@ -14,7 +14,7 @@ import frc.lib.config.SwerveModuleConstants;
 public final class Constants {
 
   public static final class Swerve {
-    public static final double stickDeadband = 0.1;
+    public static final double stickDeadband = 0.04;
 
     public static final int pigeonID = 5;
     public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
@@ -159,6 +159,7 @@ public final class Constants {
     public static final int rightIntakeSpinnerID = 11;
 
     public static final double stickDeadband = 0.1;
-    public static final double maxIntakeSpeed = 0.45; //Out of 1
+    public static final double maxTurboIntakeSpeed = 0.45; //Out of 1
+    public static final double maxIntakeSpeed = 0.25;
   }
 }
