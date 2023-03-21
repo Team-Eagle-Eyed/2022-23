@@ -27,12 +27,40 @@
     },
     {
       "anchorPoint": {
-        "x": 3.6718578900340706,
-        "y": 2.73238180680637
+        "x": 5.164242807118093,
+        "y": 2.706342848583134
       },
       "prevControl": {
-        "x": 2.6718578900340706,
-        "y": 2.73238180680637
+        "x": 4.164242807118093,
+        "y": 2.706342848583134
+      },
+      "nextControl": {
+        "x": 4.164242807118093,
+        "y": 2.706342848583134
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "balance",
+          "gyro180"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 4.079421834057343,
+        "y": 2.7177620167206156
+      },
+      "prevControl": {
+        "x": 4.170775179157196,
+        "y": 2.729181184858096
       },
       "nextControl": null,
       "holonomicAngle": 180.0,

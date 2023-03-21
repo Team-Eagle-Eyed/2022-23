@@ -18,7 +18,7 @@ public class Manipulator extends SubsystemBase {
 
     public void run(double speed) {
         m_leftManipulatorWheel.set(-(MathUtil.applyDeadband(speed, 0.1)));
-        m_rightManipulatorWheel.set(-(MathUtil.applyDeadband(speed, 0.1)));
+        m_rightManipulatorWheel.set(MathUtil.applyDeadband(speed, 0.1));
     }
 
     public void configureMotors() {

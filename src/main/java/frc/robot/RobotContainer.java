@@ -21,6 +21,7 @@ import frc.robot.autos.balanceAutoCharge;
 import frc.robot.autos.balanceAutoInside;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.CenterTag;
+import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.TeleopArm;
 import frc.robot.commands.TeleopIntake;
 import frc.robot.commands.TeleopManipulator;
@@ -56,7 +57,7 @@ public class RobotContainer {
 
   /* Intake Controls */
   private final int intakeAxis = XboxController.Axis.kLeftY.value;
-  private final int turboFlail = XboxController.Button.kY.value;
+  private final int turboFlail = XboxController.Axis.kRightTrigger.value;
 
   /* Driver Buttons */
   private final JoystickButton robotCentric =
@@ -65,12 +66,17 @@ public class RobotContainer {
       new JoystickButton(driver, XboxController.Button.kX.value);
   private final JoystickButton zeroGyro3 = 
       new JoystickButton(driver, XboxController.Button.kA.value);
-  private final JoystickButton zeroGyro4 = 
-      new JoystickButton(driver, XboxController.Button.kB.value);
   private final JoystickButton resetWheels = 
       new JoystickButton(driver, XboxController.Button.kB.value);
   private final JoystickButton autoBalance = 
       new JoystickButton(driver, XboxController.Button.kY.value);
+
+  private final JoystickButton setArmMid = 
+      new JoystickButton(operator, XboxController.Button.kA.value);
+  private final JoystickButton setArmHigh = 
+      new JoystickButton(operator, XboxController.Button.kY.value);
+  private final JoystickButton stowArm = 
+      new JoystickButton(operator, XboxController.Button.kBack.value);
 
   private SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -87,8 +93,8 @@ public class RobotContainer {
     m_chooser.addOption("Balance Auto Outside", new balanceAutoOutside(s_Swerve, s_Intake));
     m_chooser.addOption("Balance Auto Center", new balanceAutoCenter(s_Swerve, s_Intake));
     m_chooser.addOption("Balance Auto Charge", new balanceAutoCharge(s_Swerve, s_Intake));
-    m_chooser.addOption("Dummy Left", new dummyOutside(s_Swerve, s_Intake));
-    m_chooser.addOption("Dummy Right", new dummyInside(s_Swerve, s_Intake));
+    m_chooser.addOption("Dummy Outside", new dummyOutside(s_Swerve, s_Intake));
+    m_chooser.addOption("Dummy Inside", new dummyInside(s_Swerve, s_Intake));
     m_chooser.addOption("Two Cube Auto", new twoCube(s_Swerve, s_Intake));
     m_chooser.addOption("Center Tag Auto", new CenterTag(s_Swerve));
     m_chooser.addOption("Nothing", new InstantCommand());
@@ -119,7 +125,7 @@ public class RobotContainer {
     s_Intake.setDefaultCommand(
         new TeleopIntake(s_Intake,
         () -> operator.getRawAxis(intakeAxis),
-        () -> operator.getRawButton(turboFlail))
+        () -> operator.getRawAxis(turboFlail) > 0.5 ? true : false) //if trigger is more than half pressed, turbo is enabled
     );
 
     // Configure the button bindings
@@ -134,9 +140,12 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* Driver Buttons */
-    zeroGyro2.and(zeroGyro3).and(zeroGyro4).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0)));
+    zeroGyro2.and(zeroGyro3).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0)));
     autoBalance.whileTrue(new AutoBalance(s_Swerve));
     resetWheels.onTrue(new InstantCommand(() -> s_Swerve.resetWheelsToAbsolute()));
+    setArmMid.whileTrue(new SetArmPosition(s_Arm, 64));
+    setArmHigh.whileTrue(new SetArmPosition(s_Arm, 78));
+    stowArm.whileTrue(new SetArmPosition(s_Arm, 0));
   }
 
   /**

@@ -3,6 +3,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,6 +14,7 @@ public class Arm extends SubsystemBase {
     private final CANSparkMax m_armRotate = new CANSparkMax(Constants.Arm.armRotateID, MotorType.kBrushless);
     private final CANSparkMax m_armTelescope = new CANSparkMax(Constants.Arm.armTelescopeID, MotorType.kBrushless);
     private final CANSparkMax m_armShoulder = new CANSparkMax(Constants.Arm.armShoulderID, MotorType.kBrushless);
+    public final RelativeEncoder shoulderEncoder = m_armShoulder.getEncoder();
     
     public Arm() {}
 
@@ -39,7 +41,7 @@ public class Arm extends SubsystemBase {
         m_armShoulder.setInverted(true);
         m_armRotate.setOpenLoopRampRate(0.5);
         m_armRotate.setInverted(true);
-        m_armTelescope.setSmartCurrentLimit(5);
+        m_armTelescope.setSmartCurrentLimit(7);
         m_armTelescope.setInverted(true);
         m_armTelescope.setOpenLoopRampRate(0);
 
