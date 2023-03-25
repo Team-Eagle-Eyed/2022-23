@@ -34,6 +34,7 @@ public class dummyOutside extends SequentialCommandGroup{
             s_Intake.run(1);
         }));
         eventMap.put("alignWheels", new InstantCommand(() -> s_Swerve.resetWheelsToAbsolute()));
+        eventMap.put("gyro0", new InstantCommand(() -> s_Swerve.zeroGyro(0)));
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
             s_Swerve::getPose, // Pose2d supplier

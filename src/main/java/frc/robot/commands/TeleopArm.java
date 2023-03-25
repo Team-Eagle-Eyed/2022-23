@@ -33,7 +33,7 @@ public class TeleopArm extends CommandBase {
       } else if(POV.getAsDouble() == 180) {
         s_Arm.telescopeArm(-1);
       } else {
-        s_Arm.telescopeArm(0);
+        s_Arm.telescopeArm(-0.03); // feedforward
       }
 
       if(POV.getAsDouble() == 90) {
@@ -43,7 +43,12 @@ public class TeleopArm extends CommandBase {
       } else {
         s_Arm.rotateArm(0);
       }
-      s_Arm.runShoulder(-shoulderSpeed.getAsDouble());
+      if(-shoulderSpeed.getAsDouble() < 0) {
+        s_Arm.runShoulder(-shoulderSpeed.getAsDouble() * 0.5);
+      } else {
+        s_Arm.runShoulder(-shoulderSpeed.getAsDouble());
+      }
+      s_Arm.putTemperatures();
     }
     
     // Called once the command ends or is interrupted.
