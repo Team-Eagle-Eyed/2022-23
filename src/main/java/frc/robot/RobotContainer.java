@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.balanceAutoOutside;
 import frc.robot.autos.dummyOutside;
@@ -41,6 +43,7 @@ public class RobotContainer {
   /* Controllers */
   private final Joystick driver = new Joystick(0);
   private final Joystick operator = new Joystick(1);
+  private final GenericHID auxiliary = new GenericHID(2);
 
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -71,12 +74,17 @@ public class RobotContainer {
   private final JoystickButton autoBalance = 
       new JoystickButton(driver, XboxController.Button.kY.value);
 
+  /* Operator Controls */
   private final JoystickButton setArmMid = 
       new JoystickButton(operator, XboxController.Button.kA.value);
   private final JoystickButton setArmHigh = 
       new JoystickButton(operator, XboxController.Button.kY.value);
   private final JoystickButton stowArm = 
       new JoystickButton(operator, XboxController.Button.kBack.value);
+
+  /* Auxiliary Controls */
+  private final JoystickButton estop = 
+      new JoystickButton(auxiliary, 0);
 
   private SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -146,6 +154,14 @@ public class RobotContainer {
     setArmMid.whileTrue(new SetArmPosition(s_Arm, 64));
     setArmHigh.whileTrue(new SetArmPosition(s_Arm, 78));
     stowArm.whileTrue(new SetArmPosition(s_Arm, 0));
+    estop.whileTrue(new RepeatCommand(new InstantCommand(() -> {
+        s_Arm.rotateArm(0);
+        s_Arm.telescopeArm(0);
+        s_Arm.runShoulder(0);
+        s_Intake.run(0);
+        s_Manipulator.run(0);
+        s_Swerve.drive(new Translation2d(), 0, false, false);
+    }, s_Arm, s_Intake, s_Manipulator, s_Swerve)));
   }
 
   /**
