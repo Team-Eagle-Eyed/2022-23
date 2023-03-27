@@ -32,6 +32,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Lights;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -94,6 +95,7 @@ public class RobotContainer {
   private final Arm s_Arm = new Arm();
   private final Manipulator s_Manipulator = new Manipulator();
   private final Intake s_Intake = new Intake();
+  private final Lights s_Lights = new Lights();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -134,6 +136,12 @@ public class RobotContainer {
         new TeleopIntake(s_Intake,
         () -> operator.getRawAxis(intakeAxis),
         () -> operator.getRawAxis(turboFlail) > 0.5 ? true : false) //if trigger is more than half pressed, turbo is enabled
+    );
+
+    s_Lights.setDefaultCommand(
+        new InstantCommand(
+            () -> s_Lights.blue()
+        )
     );
 
     // Configure the button bindings
