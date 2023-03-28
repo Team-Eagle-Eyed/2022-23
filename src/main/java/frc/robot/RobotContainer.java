@@ -162,14 +162,7 @@ public class RobotContainer {
     setArmMid.whileTrue(new SetArmPosition(s_Arm, 64));
     setArmHigh.whileTrue(new SetArmPosition(s_Arm, 78));
     stowArm.whileTrue(new SetArmPosition(s_Arm, 0));
-    estop.whileTrue(new RepeatCommand(new InstantCommand(() -> {
-        s_Arm.rotateArm(0);
-        s_Arm.telescopeArm(0);
-        s_Arm.runShoulder(0);
-        s_Intake.run(0);
-        s_Manipulator.run(0);
-        s_Swerve.drive(new Translation2d(), 0, false, false);
-    }, s_Arm, s_Intake, s_Manipulator, s_Swerve)));
+    estop.whileTrue(new InstantCommand(() -> System.exit(0)));
   }
 
   /**
