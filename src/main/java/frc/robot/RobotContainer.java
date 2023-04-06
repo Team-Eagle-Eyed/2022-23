@@ -85,7 +85,7 @@ public class RobotContainer {
 
   /* Auxiliary Controls */
   private final JoystickButton estop = 
-      new JoystickButton(auxiliary, 0);
+      new JoystickButton(auxiliary, 1);
 
   private SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -140,7 +140,8 @@ public class RobotContainer {
 
     s_Lights.setDefaultCommand(
         new InstantCommand(
-            () -> s_Lights.blue()
+            () -> s_Lights.blue(),
+            s_Lights
         )
     );
 
@@ -162,7 +163,7 @@ public class RobotContainer {
     setArmMid.whileTrue(new SetArmPosition(s_Arm, 64));
     setArmHigh.whileTrue(new SetArmPosition(s_Arm, 78));
     stowArm.whileTrue(new SetArmPosition(s_Arm, 0));
-    estop.whileTrue(new InstantCommand(() -> System.exit(0)));
+    //estop.whileTrue(new InstantCommand(() -> System.exit(0)));
   }
 
   /**

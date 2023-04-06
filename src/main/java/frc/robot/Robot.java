@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.config.CTREConfigs;
 
 /**
@@ -19,6 +21,7 @@ public class Robot extends TimedRobot {
   public static CTREConfigs ctreConfigs;
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+  private JoystickButton estop = new JoystickButton(new GenericHID(2), 1);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -45,6 +48,9 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+    if(estop.getAsBoolean() == true) {
+      System.exit(0);
+    }
     CommandScheduler.getInstance().run();
   }
 
