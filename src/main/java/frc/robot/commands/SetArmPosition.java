@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.MathUtil;
@@ -23,7 +24,7 @@ public class SetArmPosition extends CommandBase {
         s_Arm = subsystem;
         this.setpoint = setpoint;
         shoulderController = new PIDController(kP, kI, kD);
-        integratedShoulderEncoder = s_Arm.shoulderEncoder;
+        integratedShoulderEncoder = s_Arm.integratedShoulderEncoder;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(s_Arm);
       }

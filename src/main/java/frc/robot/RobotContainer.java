@@ -4,7 +4,15 @@
 
 package frc.robot;
 
+import com.revrobotics.Rev2mDistanceSensor;
+import com.revrobotics.Rev2mDistanceSensor.Port;
+import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
+import com.revrobotics.Rev2mDistanceSensor.Unit;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -92,6 +100,8 @@ public class RobotContainer {
   private final Intake s_Intake = new Intake();
   private final Lights s_Lights = new Lights();
 
+  private final Rev2mDistanceSensor objectSensor = new Rev2mDistanceSensor(Port.kOnboard, Unit.kInches, RangeProfile.kHighSpeed);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_chooser.setDefaultOption("Balance Auto Inside", new balanceAutoInside(s_Swerve, s_Intake));
@@ -105,6 +115,8 @@ public class RobotContainer {
     m_chooser.addOption("Nothing", new InstantCommand());
     SmartDashboard.putData(m_chooser);
     SmartDashboard.putNumber("SpeedLimit", 1);
+    objectSensor.setAutomaticMode(true);
+    SmartDashboard.putNumber("sensorrange", objectSensor.getRange());
 
 
     s_Swerve.setDefaultCommand(
