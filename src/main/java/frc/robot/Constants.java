@@ -162,4 +162,10 @@ public final class Constants {
     public static final double maxTurboIntakeSpeed = 0.45; //Out of 1
     public static final double maxIntakeSpeed = 0.25;
   }
+
+  public static final class lightPatterns {
+    public static final double off = 0.99;
+    public static final double blue = 0.85;
+    public static final double flashError = -0.11;
+  }
 }

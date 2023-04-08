@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,18 +11,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.balanceAutoOutside;
 import frc.robot.autos.dummyOutside;
 import frc.robot.autos.twoCube;
 import frc.robot.autos.dummyInside;
+import frc.robot.Constants.lightPatterns;
 import frc.robot.autos.balanceAutoCenter;
 import frc.robot.autos.balanceAutoCharge;
 import frc.robot.autos.balanceAutoInside;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.CenterTag;
 import frc.robot.commands.SetArmPosition;
+import frc.robot.commands.SetLights;
 import frc.robot.commands.TeleopArm;
 import frc.robot.commands.TeleopIntake;
 import frc.robot.commands.TeleopManipulator;
@@ -44,7 +44,6 @@ public class RobotContainer {
   /* Controllers */
   private final Joystick driver = new Joystick(0);
   private final Joystick operator = new Joystick(1);
-  private final GenericHID auxiliary = new GenericHID(2);
 
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -82,10 +81,6 @@ public class RobotContainer {
       new JoystickButton(operator, XboxController.Button.kY.value);
   private final JoystickButton stowArm = 
       new JoystickButton(operator, XboxController.Button.kBack.value);
-
-  /* Auxiliary Controls */
-  private final JoystickButton estop = 
-      new JoystickButton(auxiliary, 1);
 
   private SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -139,10 +134,7 @@ public class RobotContainer {
     );
 
     s_Lights.setDefaultCommand(
-        new InstantCommand(
-            () -> s_Lights.blue(),
-            s_Lights
-        )
+        new SetLights(s_Lights, lightPatterns.blue)
     );
 
     // Configure the button bindings

@@ -9,20 +9,8 @@ public class Lights extends SubsystemBase{
 
     public Lights() {}
 
-    public void flashError() {
-        blinkin.set(-0.11); // strobe, red or 0.61 for solid red
-    }
-
-    public void blue() {
-        blinkin.set(0.85); // solid dark blue, or 0.87 for regular blue
-    }
-
     public void custom(double pattern) {
         blinkin.set(pattern);
-    }
-
-    public void off() {
-        blinkin.set(0); // hopefully this turns them off
     }
 
     public double getPattern() {
