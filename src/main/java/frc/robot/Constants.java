@@ -166,7 +166,8 @@ public final class Constants {
   public static final class lightPatterns {
     public static final double off = 0.99;
     public static final double blue = 0.85;
-    public static final double flashError = -0.11;
+    public static final double strobeRed = -0.11;
+    public static final double strobeGold = -0.07;
     public static final double green = 0.77;
   }
 }

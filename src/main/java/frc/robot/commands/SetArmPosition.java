@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.MathUtil;

@@ -9,10 +9,7 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -111,7 +108,7 @@ public class RobotContainer {
     m_chooser.addOption("Dummy Outside", new dummyOutside(s_Swerve, s_Intake));
     m_chooser.addOption("Dummy Inside", new dummyInside(s_Swerve, s_Intake));
     m_chooser.addOption("Two Cube Auto", new twoCube(s_Swerve, s_Intake));
-    m_chooser.addOption("Center Tag Auto", new CenterTag(s_Swerve));
+    m_chooser.addOption("Center Tag Auto", new CenterTag(s_Swerve, s_Lights));
     m_chooser.addOption("Nothing", new InstantCommand());
     SmartDashboard.putData(m_chooser);
     SmartDashboard.putNumber("SpeedLimit", 1);
