@@ -147,6 +147,9 @@ public final class Constants {
     public static final int armShoulderID = 23;
     public static final int armTelescopeID = 24;
     public static final int armRotateID = 25;
+
+    public static final int highSetpoint = 79;
+    public static final int midSetpoint = 64;
   }
 
   public static final class Manipulator {

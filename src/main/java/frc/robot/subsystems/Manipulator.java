@@ -14,7 +14,9 @@ public class Manipulator extends SubsystemBase {
     private final CANSparkMax m_leftManipulatorWheel = new CANSparkMax(Constants.Manipulator.manipulatorLeftID, MotorType.kBrushless);
     private final CANSparkMax m_rightManipulatorWheel = new CANSparkMax(Constants.Manipulator.manupulatorRightID, MotorType.kBrushless);
     
-    public Manipulator() {}
+    public Manipulator() {
+        configureMotors();
+    }
 
     public void run(double speed) {
         m_leftManipulatorWheel.set((MathUtil.applyDeadband(speed, 0.1)));

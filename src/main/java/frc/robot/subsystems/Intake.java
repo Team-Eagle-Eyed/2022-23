@@ -12,7 +12,9 @@ public class Intake extends SubsystemBase {
     private CANSparkMax m_leftIntakeSpinner = new CANSparkMax(Constants.Intake.leftIntakeSpinnerID, MotorType.kBrushless);
     private CANSparkMax m_rightIntakeSpinner = new CANSparkMax(Constants.Intake.rightIntakeSpinnerID, MotorType.kBrushless);
 
-    public Intake() {}
+    public Intake() {
+        configureMotors();
+    }
 
     public void run(double speed) {
         m_leftIntakeSpinner.set(speed);

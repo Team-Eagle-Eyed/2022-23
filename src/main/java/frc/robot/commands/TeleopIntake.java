@@ -22,9 +22,7 @@ public class TeleopIntake extends CommandBase {
       }
 
     @Override
-    public void initialize() {
-        s_Intake.configureMotors();
-    }
+    public void initialize() {}
 
     @Override
     public void execute() {

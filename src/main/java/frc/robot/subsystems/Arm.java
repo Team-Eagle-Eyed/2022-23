@@ -25,6 +25,7 @@ public class Arm extends SubsystemBase {
     
     public Arm() {
         shoulderEncoder.configSensorDirection(true);
+        configureMotors();
     }
 
     public void rotateArm(double speed) {
@@ -54,16 +55,22 @@ public class Arm extends SubsystemBase {
         m_armShoulder.setOpenLoopRampRate(0.3);
         m_armShoulder.setSmartCurrentLimit(15);
         m_armShoulder.setInverted(true);
+
+        m_armShoulder.getEncoder().setPositionConversionFactor(360 / 240);
+        m_armShoulder.getEncoder().setPosition(shoulderEncoder.getAbsolutePosition() - 188.5);
+
         m_armShoulder.enableSoftLimit(SoftLimitDirection.kForward, true);
-        m_armShoulder.setSoftLimit(SoftLimitDirection.kForward, 93);
-        m_armShoulder.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        m_armShoulder.setSoftLimit(SoftLimitDirection.kForward, 95);
+        m_armShoulder.enableSoftLimit(SoftLimitDirection.kReverse, true);   
         m_armShoulder.setSoftLimit(SoftLimitDirection.kReverse, 0);
         m_armShoulder.setIdleMode(IdleMode.kBrake);
 
-        m_armShoulder.getEncoder().setPosition((shoulderEncoder.getAbsolutePosition() - 184.75) * 0.822);
+
 
         m_armRotate.setOpenLoopRampRate(0.5);
         m_armRotate.setInverted(true);
+
+
 
         m_armTelescope.setSmartCurrentLimit(5);
         m_armTelescope.setInverted(true);
@@ -74,6 +81,7 @@ public class Arm extends SubsystemBase {
         m_armTelescope.setSoftLimit(SoftLimitDirection.kForward, 195); // replace 1200 with the number of rotations in a full extension
         m_armTelescope.enableSoftLimit(SoftLimitDirection.kReverse, true);
         m_armTelescope.setSoftLimit(SoftLimitDirection.kReverse, 23);
+
         m_armTelescope.getEncoder().setPosition((210 * telescopePot.get())); // replace 1200 with the number of rotations in a full extension, also the potentiometer might not get to the full 1 or 0
        
 
