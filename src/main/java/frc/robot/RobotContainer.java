@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -91,6 +92,7 @@ public class RobotContainer {
   private final Manipulator s_Manipulator = new Manipulator();
   private final Intake s_Intake = new Intake();
   private final Lights s_Lights = new Lights();
+  private final DigitalInput objectSensor = new DigitalInput(0);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -131,11 +133,12 @@ public class RobotContainer {
     s_Intake.setDefaultCommand(
         new TeleopIntake(s_Intake,
         () -> operator.getRawAxis(intakeAxis),
-        () -> operator.getRawAxis(turboFlail) > 0.5 ? true : false) //if trigger is more than half pressed, turbo is enabled
+        () -> operator.getRawAxis(turboFlail) > 0.5 ? true : false,
+        objectSensor::get) //if trigger is more than half pressed, turbo is enabled
     );
 
     s_Lights.setDefaultCommand(
-        new SetLights(s_Lights, lightPatterns.blue)
+        new SetLights(s_Lights, lightPatterns.blue, objectSensor::get)
     );
 
     // Configure the button bindings

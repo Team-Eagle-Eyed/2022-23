@@ -162,8 +162,6 @@ public final class Constants {
     public static final int rightIntakeSpinnerID = 11;
 
     public static final double stickDeadband = 0.1;
-    public static final double maxTurboIntakeSpeed = 0.45; //Out of 1
-    public static final double maxIntakeSpeed = 0.25;
   }
 
   public static final class lightPatterns {

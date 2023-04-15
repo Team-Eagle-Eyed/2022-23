@@ -16,7 +16,6 @@ import frc.robot.Constants;
 import frc.robot.commands.AutoBalance;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Arm;
 
 public class balanceAutoCenter extends SequentialCommandGroup{
     public balanceAutoCenter(Swerve s_Swerve, Intake s_Intake) {

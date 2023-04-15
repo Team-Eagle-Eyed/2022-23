@@ -240,7 +240,7 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "4,1": {
+          "4,0": {
             "size": [
               1,
               1
@@ -253,7 +253,7 @@
               "_showGlyph": false
             }
           },
-          "5,1": {
+          "5,0": {
             "size": [
               1,
               1
@@ -266,7 +266,7 @@
               "_showGlyph": false
             }
           },
-          "6,1": {
+          "4,1": {
             "size": [
               1,
               1
@@ -279,7 +279,7 @@
               "_showGlyph": false
             }
           },
-          "5,2": {
+          "5,1": {
             "size": [
               1,
               1
@@ -290,6 +290,48 @@
               "_title": "SmartDashboard/ShoulderIntPos",
               "_glyph": 148,
               "_showGlyph": false
+            }
+          },
+          "0,0": {
+            "size": [
+              4,
+              4
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://Port_1182_MJPEG_Server",
+              "_title": "Port_1182_MJPEG_Server",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": -1,
+              "imageHeight": -1
+            }
+          },
+          "6,0": {
+            "size": [
+              4,
+              4
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://Port_1184_MJPEG_Server",
+              "_title": "Port_1184_MJPEG_Server",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": -1,
+              "imageHeight": -1
             }
           }
         }

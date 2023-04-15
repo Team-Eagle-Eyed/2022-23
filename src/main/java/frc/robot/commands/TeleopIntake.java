@@ -11,11 +11,13 @@ public class TeleopIntake extends CommandBase {
     private final Intake s_Intake;
     private final DoubleSupplier intakeSup;
     private final BooleanSupplier turboFlail;
+    private final BooleanSupplier objectPresent;
 
-    public TeleopIntake(Intake subsystem, DoubleSupplier intakeSup, BooleanSupplier turboFlail) {
+    public TeleopIntake(Intake subsystem, DoubleSupplier intakeSup, BooleanSupplier turboFlail, BooleanSupplier objectPresent) {
         s_Intake = subsystem;
         this.intakeSup = intakeSup;
         this.turboFlail = turboFlail;
+        this.objectPresent = objectPresent;
 
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(s_Intake);
@@ -32,13 +34,14 @@ public class TeleopIntake extends CommandBase {
             if(intakeVal < 0) { //negative values outtake
                 s_Intake.run(intakeVal); //out at full speed
             } else {
-                s_Intake.run(intakeVal * frc.robot.Constants.Intake.maxTurboIntakeSpeed); //in at limited speed
+                s_Intake.run(intakeVal * 0.45); //in at limited speed
             }    
         } else {
             if(intakeVal < 0) { //negative values outtake
                 s_Intake.run(intakeVal * 0.17); //out at low speed
             } else {
-                s_Intake.run(intakeVal * frc.robot.Constants.Intake.maxIntakeSpeed); //in at limited speed
+                s_Intake.run(intakeVal * 0.25 * (objectPresent.getAsBoolean() ? 0 : 1)
+                ); //in at limited speed
             }
         }
         
