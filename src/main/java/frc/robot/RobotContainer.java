@@ -23,14 +23,9 @@ import frc.robot.autos.balanceAutoCharge;
 import frc.robot.autos.balanceAutoInside;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.CenterTag;
-import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetLights;
-import frc.robot.commands.TeleopArm;
 import frc.robot.commands.TeleopIntake;
-import frc.robot.commands.TeleopManipulator;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lights;
@@ -51,13 +46,6 @@ public class RobotContainer {
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
   private final int speedAxis = XboxController.Axis.kRightTrigger.value;
-
-  /* Arm Controls */
-  private final int shoulderAxis = XboxController.Axis.kRightY.value;
-
-  /* Manipulator Controls */
-  private final int manipulatorForward = XboxController.Button.kX.value;
-  private final int manipulatorReverse = XboxController.Button.kB.value;
 
   /* Intake Controls */
   private final int intakeAxis = XboxController.Axis.kLeftY.value;
@@ -88,8 +76,6 @@ public class RobotContainer {
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
-  private final Arm s_Arm = new Arm();
-  private final Manipulator s_Manipulator = new Manipulator();
   private final Intake s_Intake = new Intake();
   private final Lights s_Lights = new Lights();
   private final DigitalInput objectSensor = new DigitalInput(0);
@@ -117,18 +103,6 @@ public class RobotContainer {
             () -> -driver.getRawAxis(strafeAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
             () -> -driver.getRawAxis(rotationAxis) * SmartDashboard.getNumber("SpeedLimit", 1) * 0.60,
             () -> robotCentric.getAsBoolean()));
-    
-    s_Arm.setDefaultCommand(
-        new TeleopArm(s_Arm,
-        () -> operator.getPOV(), //operator::getPOV,
-        () -> operator.getRawAxis(shoulderAxis))
-    );
-
-    s_Manipulator.setDefaultCommand(
-        new TeleopManipulator(s_Manipulator,
-        () -> operator.getRawButton(manipulatorForward),
-        () -> operator.getRawButton(manipulatorReverse))
-    );
 
     s_Intake.setDefaultCommand(
         new TeleopIntake(s_Intake,
@@ -156,9 +130,6 @@ public class RobotContainer {
     zeroGyro2.and(zeroGyro3).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0)));
     autoBalance.whileTrue(new AutoBalance(s_Swerve));
     resetWheels.onTrue(new InstantCommand(() -> s_Swerve.resetWheelsToAbsolute()));
-    setArmMid.whileTrue(new SetArmPosition(s_Arm, Constants.Arm.midSetpoint));
-    setArmHigh.whileTrue(new SetArmPosition(s_Arm, Constants.Arm.highSetpoint));
-    stowArm.whileTrue(new SetArmPosition(s_Arm, 0));
     //estop.whileTrue(new InstantCommand(() -> System.exit(0)));
   }
 

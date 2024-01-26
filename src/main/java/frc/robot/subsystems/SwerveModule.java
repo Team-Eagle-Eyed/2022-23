@@ -153,7 +153,7 @@ public class SwerveModule {
       if (code == ErrorCode.OK) {
         break;
       }
-      System.out.println("CANcoder attempt " + i + "/" + ATTEMPTS);
+      System.out.println("CANcoder attempt " + i + "/" + ATTEMPTS + "\n" + code);
       try {
         Thread.sleep(10);
       } catch (InterruptedException e) {
@@ -161,7 +161,7 @@ public class SwerveModule {
       angle = angleEncoder.getAbsolutePosition();
       code = angleEncoder.getLastError();
     }
-    if (code != ErrorCode.OK) {
+    if (code != ErrorCode.OK) {  
       DriverStation.reportWarning(
           "CANCoder " + angleEncoder.getDeviceID() + " reading was faulty, ignoring.\n", false);
     }
