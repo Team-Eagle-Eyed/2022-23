@@ -4,10 +4,10 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
-public class TeleopIntake extends CommandBase {
+public class TeleopIntake extends Command {
     private final Intake s_Intake;
     private final DoubleSupplier intakeSup;
     private final BooleanSupplier turboFlail;

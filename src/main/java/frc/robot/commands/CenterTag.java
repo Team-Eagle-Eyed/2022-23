@@ -7,12 +7,12 @@ import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.lightPatterns;
 import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Swerve;
 
-public class CenterTag extends CommandBase {
+public class CenterTag extends Command {
     private final double kP = 0.4; //.25?
     private final double kI = 0;
     private final double kD = 0;
