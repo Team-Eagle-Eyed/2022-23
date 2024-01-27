@@ -8,8 +8,6 @@ import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.lightPatterns;
-import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Swerve;
 
 public class CenterTag extends Command {
@@ -20,7 +18,6 @@ public class CenterTag extends Command {
     private double translationOutput;
     private final double maxOutput = 1;
     private Swerve s_Swerve;
-    private Lights s_Lights;
     NetworkTable table = NetworkTableInstance.getDefault().getTable("photonvision/IMX219");
     DoubleSubscriber currentYaw;
     double yawSetpoint = 0;
@@ -30,14 +27,13 @@ public class CenterTag extends Command {
     private PIDController rotationController;
     private PIDController translationController;
 
-    public CenterTag(Swerve subsystem, Lights s_Lights) {
+    public CenterTag(Swerve subsystem) {
         this.s_Swerve = subsystem;
-        this.s_Lights = s_Lights;
         currentYaw = table.getDoubleTopic("targetYaw").subscribe(yawSetpoint);
         currentArea = table.getDoubleTopic("targetArea").subscribe(areaSetPoint);
         hasTarget = table.getBooleanTopic("hasTarget").subscribe(false);
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(s_Swerve, s_Lights);
+        addRequirements(s_Swerve);
 
         rotationController = new PIDController(kP, kI, kD);
         translationController = new PIDController(kP, kI, kD);
@@ -53,11 +49,6 @@ public class CenterTag extends Command {
 
     @Override
     public void execute() {
-        if(hasTarget.get()) {
-            s_Lights.custom(lightPatterns.strobeGold);
-        } else {
-            s_Lights.custom(lightPatterns.blue);
-        }
         rotationOutput = MathUtil.clamp(rotationController.calculate(hasTarget.get() ? currentYaw.get() : yawSetpoint), -maxOutput, maxOutput);
         translationOutput = MathUtil.clamp(translationController.calculate(hasTarget.get() ? currentArea.get() : areaSetPoint), -maxOutput, maxOutput);
         s_Swerve.drive(new Translation2d(translationOutput, 0), rotationOutput, false, true);
