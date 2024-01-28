@@ -111,8 +111,8 @@ public class Swerve extends SubsystemBase {
         }
     }
 
-    public ChassisSpeeds getRobotRelativeSpeeds() { //for pathplanner // TODO:Edit this to actually return the velocity
-        return ChassisSpeeds.fromRobotRelativeSpeeds(0, 0, 0, getGyroYaw())
+    public ChassisSpeeds getRobotRelativeSpeeds() { //for pathplanner
+        return Constants.Swerve.swerveKinematics.toChassisSpeeds(this.getModuleStates());
     }
 
     public SwerveModuleState[] getModuleStates(){
