@@ -3,11 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Swerve;
 
 
-public class AutoBalance extends CommandBase {
+public class AutoBalance extends Command {
 
     private final Swerve s_Swerve;
     private final PIDController pitchController;

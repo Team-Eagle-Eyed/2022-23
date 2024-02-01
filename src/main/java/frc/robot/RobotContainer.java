@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -13,24 +16,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.autos.balanceAutoOutside;
-import frc.robot.autos.dummyOutside;
-import frc.robot.autos.twoCube;
-import frc.robot.autos.dummyInside;
 import frc.robot.Constants.lightPatterns;
-import frc.robot.autos.balanceAutoCenter;
-import frc.robot.autos.balanceAutoCharge;
-import frc.robot.autos.balanceAutoInside;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.CenterTag;
-import frc.robot.commands.SetArmPosition;
 import frc.robot.commands.SetLights;
-import frc.robot.commands.TeleopArm;
 import frc.robot.commands.TeleopIntake;
-import frc.robot.commands.TeleopManipulator;
 import frc.robot.commands.TeleopSwerve;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Lights;
@@ -52,13 +43,6 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kRightX.value;
   private final int speedAxis = XboxController.Axis.kRightTrigger.value;
 
-  /* Arm Controls */
-  private final int shoulderAxis = XboxController.Axis.kRightY.value;
-
-  /* Manipulator Controls */
-  private final int manipulatorForward = XboxController.Button.kX.value;
-  private final int manipulatorReverse = XboxController.Button.kB.value;
-
   /* Intake Controls */
   private final int intakeAxis = XboxController.Axis.kLeftY.value;
   private final int turboFlail = XboxController.Axis.kRightTrigger.value;
@@ -75,39 +59,24 @@ public class RobotContainer {
   private final JoystickButton autoBalance = 
       new JoystickButton(driver, XboxController.Button.kY.value);
 
-  /* Operator Controls */
-  private final JoystickButton setArmMid = 
-      new JoystickButton(operator, XboxController.Button.kA.value);
-  private final JoystickButton setArmHigh = 
-      new JoystickButton(operator, XboxController.Button.kY.value);
-  private final JoystickButton stowArm = 
-      new JoystickButton(operator, XboxController.Button.kBack.value);
-
-  private SendableChooser<Command> m_chooser = new SendableChooser<>();
+  private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
-  private final Arm s_Arm = new Arm();
-  private final Manipulator s_Manipulator = new Manipulator();
   private final Intake s_Intake = new Intake();
   private final Lights s_Lights = new Lights();
   private final DigitalInput objectSensor = new DigitalInput(0);
 
+  private final CenterTag c_centerTag = new CenterTag(s_Swerve, s_Lights);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_chooser.setDefaultOption("Balance Auto Inside", new balanceAutoInside(s_Swerve, s_Intake));
-    m_chooser.addOption("Balance Auto Outside", new balanceAutoOutside(s_Swerve, s_Intake));
-    m_chooser.addOption("Balance Auto Center", new balanceAutoCenter(s_Swerve, s_Intake));
-    m_chooser.addOption("Balance Auto Charge", new balanceAutoCharge(s_Swerve, s_Intake));
-    m_chooser.addOption("Dummy Outside", new dummyOutside(s_Swerve, s_Intake));
-    m_chooser.addOption("Dummy Inside", new dummyInside(s_Swerve, s_Intake));
-    m_chooser.addOption("Two Cube Auto", new twoCube(s_Swerve, s_Intake));
-    m_chooser.addOption("Center Tag Auto", new CenterTag(s_Swerve, s_Lights));
-    m_chooser.addOption("Nothing", new InstantCommand());
-    SmartDashboard.putData(m_chooser);
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData(autoChooser);
     SmartDashboard.putNumber("SpeedLimit", 1);
+    autoChooser.addOption("Center Tag Auto", c_centerTag);
 
 
     s_Swerve.setDefaultCommand(
@@ -117,18 +86,6 @@ public class RobotContainer {
             () -> -driver.getRawAxis(strafeAxis) * driver.getRawAxis(speedAxis) * SmartDashboard.getNumber("SpeedLimit", 1),
             () -> -driver.getRawAxis(rotationAxis) * SmartDashboard.getNumber("SpeedLimit", 1) * 0.60,
             () -> robotCentric.getAsBoolean()));
-    
-    s_Arm.setDefaultCommand(
-        new TeleopArm(s_Arm,
-        () -> operator.getPOV(), //operator::getPOV,
-        () -> operator.getRawAxis(shoulderAxis))
-    );
-
-    s_Manipulator.setDefaultCommand(
-        new TeleopManipulator(s_Manipulator,
-        () -> operator.getRawButton(manipulatorForward),
-        () -> operator.getRawButton(manipulatorReverse))
-    );
 
     s_Intake.setDefaultCommand(
         new TeleopIntake(s_Intake,
@@ -140,6 +97,9 @@ public class RobotContainer {
     s_Lights.setDefaultCommand(
         new SetLights(s_Lights, lightPatterns.blue, objectSensor::get)
     );
+
+
+    NamedCommands.registerCommand("Center Tag", c_centerTag);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -156,9 +116,6 @@ public class RobotContainer {
     zeroGyro2.and(zeroGyro3).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0)));
     autoBalance.whileTrue(new AutoBalance(s_Swerve));
     resetWheels.onTrue(new InstantCommand(() -> s_Swerve.resetWheelsToAbsolute()));
-    setArmMid.whileTrue(new SetArmPosition(s_Arm, Constants.Arm.midSetpoint));
-    setArmHigh.whileTrue(new SetArmPosition(s_Arm, Constants.Arm.highSetpoint));
-    stowArm.whileTrue(new SetArmPosition(s_Arm, 0));
     //estop.whileTrue(new InstantCommand(() -> System.exit(0)));
   }
 
@@ -169,6 +126,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // Will run in autonomous
-    return m_chooser.getSelected();
+    return autoChooser.getSelected();
   }
 }

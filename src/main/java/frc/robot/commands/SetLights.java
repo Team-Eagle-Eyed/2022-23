@@ -3,11 +3,11 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 
 //import edu.wpi.first.wpilibj.boolean;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.lightPatterns;
 import frc.robot.subsystems.Lights;
 
-public class SetLights extends CommandBase {
+public class SetLights extends Command {
     private final Lights s_Lights;
     private final double pattern;
     private final BooleanSupplier objectSensor;

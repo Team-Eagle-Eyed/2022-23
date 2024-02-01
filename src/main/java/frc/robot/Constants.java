@@ -2,7 +2,9 @@ package frc.robot;
 
 import java.util.HashMap;
 
-import com.revrobotics.CANSparkMax.IdleMode;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -81,7 +83,7 @@ public final class Constants {
     public static final boolean angleInvert = true; //For mk4i's the motors are upside down
 
     /* Angle Encoder Invert */
-    public static final boolean canCoderInvert = false;
+    public static final SensorDirectionValue canCoderInvert = SensorDirectionValue.Clockwise_Positive; // used to be boolean false
 
     /* Module Specific Constants */
     /* Front Left Module - Module 0 */
