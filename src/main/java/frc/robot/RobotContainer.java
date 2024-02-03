@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.lightPatterns;
 import frc.robot.commands.AutoBalance;
-import frc.robot.commands.CenterTag;
+import frc.robot.commands.CenterNote;
 import frc.robot.commands.SetLights;
 import frc.robot.commands.TeleopIntake;
 import frc.robot.commands.TeleopSwerve;
@@ -68,7 +68,7 @@ public class RobotContainer {
   private final Lights s_Lights = new Lights();
   private final DigitalInput objectSensor = new DigitalInput(0);
 
-  private final CenterTag c_centerTag = new CenterTag(s_Swerve, s_Lights);
+  private final CenterNote c_centerNote = new CenterNote(s_Swerve, s_Lights);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -76,7 +76,9 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData(autoChooser);
     SmartDashboard.putNumber("SpeedLimit", 1);
-    autoChooser.addOption("Center Tag Auto", c_centerTag);
+    autoChooser.addOption("Center Tag Auto", c_centerNote);
+
+    SmartDashboard.putBoolean("AutoHasTarget", false);
 
 
     s_Swerve.setDefaultCommand(
@@ -99,7 +101,7 @@ public class RobotContainer {
     );
 
 
-    NamedCommands.registerCommand("Center Tag", c_centerTag);
+    NamedCommands.registerCommand("Center Tag", c_centerNote);
 
     // Configure the button bindings
     configureButtonBindings();

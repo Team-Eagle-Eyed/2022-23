@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.config.SwerveModuleConstants;
 import frc.lib.math.OnboardModuleState;
 import frc.lib.util.CANCoderUtil;
@@ -76,6 +77,8 @@ public class SwerveModule {
 
   public void resetToAbsolute() {
     double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
+    SmartDashboard.putNumber("absolute position" + moduleNumber, absolutePosition);
+    // SmartDashboard.putNumber("angleOffset" + moduleNumber, angleOffset.getDegrees());
     // double absolutePosition = getCanCoder().getDegrees();
     integratedAngleEncoder.setPosition(absolutePosition);
     // integratedAngleEncoder.setPosition(0);
