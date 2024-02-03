@@ -116,7 +116,6 @@ public class RobotContainer {
     zeroGyro2.and(zeroGyro3).onTrue(new InstantCommand(() -> s_Swerve.zeroGyro(0)));
     autoBalance.whileTrue(new AutoBalance(s_Swerve));
     resetWheels.onTrue(new InstantCommand(() -> s_Swerve.resetWheelsToAbsolute()));
-    //estop.whileTrue(new InstantCommand(() -> System.exit(0)));
   }
 
   /**
